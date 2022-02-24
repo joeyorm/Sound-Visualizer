@@ -34,19 +34,19 @@ void ofApp::draw(){
 }
 void ofApp::drawMode1(vector<float> amplitudes){
         ofFill(); // Drawn Shapes will be filled in with color
-        ofSetColor(256); // This resets the color of the "brush" to white
+        //ofSetColor(256); // This resets the color of the "brush" to white
         ofDrawBitmapString("Rectangle Height Visualizer", 0, 15);
-        ofSetColor(189, 45, 135); 
+        ofSetColor(ofRandom(0,255), ofRandom(0,255), ofRandom(0,255)); 
         ofDrawRectangle(2, ofGetHeight() - 100, 50,  amplitudes[0]);
 }
 void ofApp::drawMode2(vector<float> amplitudes){
         ofSetLineWidth(5); // Sets the line width
         ofNoFill(); // Only the outline of shapes will be drawn
-        ofSetColor(256); // This resets the color of the "brush" to white
+        //ofSetColor(256); // This resets the color of the "brush" to white
         ofDrawBitmapString("Circle Radius Visualizer", 0, 15);
         int bands = amplitudes.size();
         for(int i=0; i< bands; i++){
-            ofSetColor((bands - i)*32 %256,18,144); // Color varies between frequencies
+            ofSetColor((bands - i)*32 %256,ofRandom(0,255),ofRandom(0,255)); // Color varies between frequencies
             ofDrawCircle(ofGetWidth()/2, ofGetHeight()/2, amplitudes[0]/(i +1));
         }
 }
