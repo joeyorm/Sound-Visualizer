@@ -5,7 +5,7 @@ void ofApp::setup(){
     sound.loadSound("beat.wav"); //Loads a sound file (in bin/data/)
     sound.setLoop(true); // Makes the song loop indefinitely
     sound.setVolume(1); // Sets the song volume
-    ofSetBackgroundColor(36, 32,56); // Sets the Background Color
+    ofSetBackgroundColor(211, 85, 77); // Sets the Background Color
 }
 
 //--------------------------------------------------------------
