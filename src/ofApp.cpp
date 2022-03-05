@@ -9,9 +9,7 @@ void ofApp::setup()
     sound.loadSound("beat.wav");       // Loads a sound file (in bin/data/)
     sound.setLoop(true);               // Makes the song loop indefinitely
     sound.setVolume(1);                // Sets the song volume
-    ofSetBackgroundColor(211, 85, 77); // Sets the Background Color
-    count = 0;                         // sets the counting of the frames to 0
-    iterator = 0;                      // sets the timer to 0
+    ofSetBackgroundColor(211, 85, 77); // Sets the Background Color                    // sets the timer to 0
 }
 
 //--------------------------------------------------------------
@@ -34,7 +32,7 @@ void ofApp::draw()
     {
         ofDrawBitmapString("Press 'p' to play some music!", ofGetWidth() / 2 - 50, ofGetHeight() / 2);
         ofDrawBitmapString(keystrokes.size(), ofGetWidth() / 2, ofGetHeight() / 2 - 40);
-        ofDrawBitmapString(to_string(iterator), ofGetWidth() / 2, ofGetHeight() / 2 - 25);
+        ofDrawBitmapString(to_string(ofGetFrameNum() % 60), ofGetWidth() / 2, ofGetHeight() / 2 - 25);
     }
     vector<float> amplitudes = visualizer.getAmplitudes();
     if (mode == '1')
@@ -53,10 +51,14 @@ void ofApp::draw()
 void ofApp::drawMode1(vector<float> amplitudes)
 {
     ofFill(); // Drawn Shapes will be filled in with color
-    // ofSetColor(256); // This resets the color of the "brush" to white
+              // ofSetColor(256); // This resets the color of the "brush" to white
     ofDrawBitmapString("Rectangle Height Visualizer", 0, 15);
-    ofSetColor(ofRandom(0, 255), ofRandom(0, 255), ofRandom(0, 255));
+    if (booleanTimer(5))
+    {
+        ofSetColor(ofRandom(0, 255), ofRandom(0, 255), ofRandom(0, 255));
+    }
     ofDrawRectangle(2, ofGetHeight() - 100, 50, amplitudes[0]);
+    // ofSetColor(256);
 }
 void ofApp::drawMode2(vector<float> amplitudes)
 {
@@ -67,14 +69,20 @@ void ofApp::drawMode2(vector<float> amplitudes)
     int bands = amplitudes.size();
     for (int i = 0; i < bands; i++)
     {
-        ofSetColor((bands - i) * 32 % 256, ofRandom(0, 255), ofRandom(0, 255)); // Color varies between frequencies
+        if (booleanTimer(5))
+        {
+            ofSetColor((bands - i) * 32 % 256, ofRandom(0, 255), ofRandom(0, 255));
+        } // Color varies between frequencies
         ofDrawCircle(ofGetWidth() / 2, ofGetHeight() / 2, amplitudes[0] / (i + 1));
     }
 }
 
 void ofApp::drawMode3(vector<float> amplitudes)
 {
-    ofSetColor(256); // This resets the color of the "brush" to white
+    if (booleanTimer(5))
+    {
+        ofSetColor(ofRandom(0, 255), ofRandom(0, 255), ofRandom(0, 255));
+    } // This resets the color of the "brush" to white
     ofDrawBitmapString("Rectangle Width Visualizer", 0, 15);
     // YOUR CODE HERE
 }
@@ -181,15 +189,21 @@ void ofApp::Recorder(int key)
 
 void ofApp::timer()
 {
-    count++;
-    if (count % 60 == 0)
+    if (ofGetFrameNum() % 60 == 0)
     {
-        iterator++;
+        int secondsPassed;
+        secondsPassed++;
     }
 }
 
-bool ofApp::booleanTimer(int intervalToReturnBool){
-    if(iterator % intervalToReturnBool == 0){
+bool ofApp::booleanTimer(int intervalToReturnBool)
+{
+    if (ofGetFrameNum() % (60 * intervalToReturnBool) == 0)
+    {
         return true;
+    }
+    else
+    {
+        return false;
     }
 }
