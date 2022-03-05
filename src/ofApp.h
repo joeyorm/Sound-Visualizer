@@ -2,6 +2,9 @@
 
 #include "ofMain.h"
 #include "AudioVisualizer.h"
+#include <vector>
+#include <iostream>
+using namespace std;
 
 class ofApp : public ofBaseApp{
 	public:
@@ -23,10 +26,14 @@ class ofApp : public ofBaseApp{
 		void windowResized(int w, int h);
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
+		void Recorder(int key);
+
 	private:
 		ofSoundPlayer sound;
 		AudioVisualizer visualizer;
 		
+		bool recording = false;
 		bool playing = false;
 		char mode = '1';
+		vector<int> keystrokes;
 };

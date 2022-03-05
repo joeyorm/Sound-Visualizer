@@ -1,4 +1,7 @@
 #include "ofApp.h"
+#include <vector>
+#include <iostream>
+using namespace std;
 
 //--------------------------------------------------------------
 void ofApp::setup(){
@@ -20,8 +23,10 @@ void ofApp::update(){
 void ofApp::draw(){
     /* The update method is called muliple times per second
     It's in charge of drawing all figures and text on screen */
+    
     if(!playing){
         ofDrawBitmapString("Press 'p' to play some music!", ofGetWidth()/2 - 50, ofGetHeight()/2);
+        ofDrawBitmapString(keystrokes.size(), ofGetWidth()/2, ofGetHeight()/2 - 40);
     }
     vector<float> amplitudes = visualizer.getAmplitudes();
     if(mode == '1'){
@@ -60,6 +65,7 @@ void ofApp::drawMode3(vector<float> amplitudes){
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
     // This method is called automatically when any key is pressed
+
     switch(key){
         case 'p':
             if(playing){
@@ -77,7 +83,17 @@ void ofApp::keyPressed(int key){
             break;
         case '3':
             mode = '3';
-            break;
+            break; 
+        case 'r':
+            if(recording){
+                recording = false;
+            }
+            else{
+                recording = true;
+            }
+    }
+    if (recording){
+        this->Recorder(key);
     }
 }
 
@@ -129,4 +145,10 @@ void ofApp::gotMessage(ofMessage msg){
 //--------------------------------------------------------------
 void ofApp::dragEvent(ofDragInfo dragInfo){ 
 
+}
+
+void ofApp::Recorder(int key){
+    
+    this->keystrokes.push_back(key);
+    cout << keystrokes.size() << endl;
 }
