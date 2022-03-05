@@ -11,6 +11,7 @@ class ofApp : public ofBaseApp{
 		void setup();
 		void update();
 		void draw();
+		void timer();
 
 		void drawMode1(vector<float> amplitudes);
 		void drawMode2(vector<float> amplitudes);
@@ -27,6 +28,11 @@ class ofApp : public ofBaseApp{
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
 		void Recorder(int key);
+		
+		
+		bool booleanTimer(int intervalToReturnBool);
+		int count;
+		int iterator;
 
 	private:
 		ofSoundPlayer sound;
@@ -36,4 +42,6 @@ class ofApp : public ofBaseApp{
 		bool playing = false;
 		char mode = '1';
 		vector<int> keystrokes;
+
+		
 };
