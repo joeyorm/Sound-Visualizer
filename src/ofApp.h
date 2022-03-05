@@ -32,6 +32,11 @@ public:
 
 	bool booleanTimer(int intervalToReturnBool);
 
+	ofTrueTypeFont myFont1;
+	ofTrueTypeFont myFont2;
+	ofTrueTypeFont myFont3;
+	ofTrueTypeFont myFont4;
+
 private:
 	ofSoundPlayer sound;
 	AudioVisualizer visualizer;

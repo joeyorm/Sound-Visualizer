@@ -9,7 +9,12 @@ void ofApp::setup()
     sound.loadSound("beat.wav");       // Loads a sound file (in bin/data/)
     sound.setLoop(true);               // Makes the song loop indefinitely
     sound.setVolume(1);                // Sets the song volume
-    ofSetBackgroundColor(211, 85, 77); // Sets the Background Color                    // sets the timer to 0
+    ofSetBackgroundColor(256, 256, 256);
+    myFont1.load("Metropo.ttf", 30);
+    myFont2.load("Carbon.ttf", 30);
+    myFont3.load("Gravis.ttf",30);
+    myFont4.load("Highup.ttf",30);
+     // Sets the Background Color                    // sets the timer to 0
 }
 
 //--------------------------------------------------------------
@@ -25,12 +30,16 @@ void ofApp::update()
 //--------------------------------------------------------------
 void ofApp::draw()
 {
+    ofColor colorOne(255, 187, 187);
+    ofColor colorTwo(255, 228, 192);
+    ofBackgroundGradient(colorOne, colorTwo, OF_GRADIENT_LINEAR);
     /* The update method is called muliple times per second
     It's in charge of drawing all figures and text on screen */
 
     if (!playing)
-    {
-        ofDrawBitmapString("Press 'p' to play some music!", ofGetWidth() / 2 - 50, ofGetHeight() / 2);
+    {   
+        myFont3.drawString("Press 'P' to play some music!", ofGetWidth() / 2 - 50, ofGetHeight() / 2 );
+        // ofDrawBitmapString("Press 'p' to play some music!", ofGetWidth() / 2 - 50, ofGetHeight() / 2);
         ofDrawBitmapString(keystrokes.size(), ofGetWidth() / 2, ofGetHeight() / 2 - 40);
         ofDrawBitmapString(to_string(ofGetFrameNum() % 60), ofGetWidth() / 2, ofGetHeight() / 2 - 25);
     }
@@ -55,7 +64,7 @@ void ofApp::drawMode1(vector<float> amplitudes)
     ofDrawBitmapString("Rectangle Height Visualizer", 0, 15);
     if (booleanTimer(5))
     {
-        ofSetColor(ofRandom(0, 255), ofRandom(0, 255), ofRandom(0, 255));
+        ofSetColor(ofRandom(0, 135), ofRandom(0, 255), ofRandom(0, 255));
     }
     ofDrawRectangle(2, ofGetHeight() - 100, 50, amplitudes[0]);
     // ofSetColor(256);
@@ -81,7 +90,7 @@ void ofApp::drawMode3(vector<float> amplitudes)
 {
     if (booleanTimer(5))
     {
-        ofSetColor(ofRandom(0, 255), ofRandom(0, 255), ofRandom(0, 255));
+        ofSetColor(ofRandom(0, 135), ofRandom(0, 255), ofRandom(0, 255));
     } // This resets the color of the "brush" to white
     ofDrawBitmapString("Rectangle Width Visualizer", 0, 15);
     // YOUR CODE HERE
@@ -123,6 +132,7 @@ void ofApp::keyPressed(int key)
         {
             recording = true;
         }
+
     }
     if (recording)
     {
