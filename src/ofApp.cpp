@@ -160,19 +160,23 @@ void ofApp::keyPressed(int key)
         if (recording)
         {
             recording = false;
+            break;
         }
         else
         {
             recording = true;
+            break;
         }
     case 'h':
         if (helpButtons)
         {
             helpButtons = false;
+            break;
         }
         else
         {
             helpButtons = true;
+            break;
         }
     }
     if (recording)
@@ -233,9 +237,9 @@ void ofApp::dragEvent(ofDragInfo dragInfo)
 
 void ofApp::Recorder(int key)
 {
-
-    this->keystrokes.push_back(key);
-    cout << keystrokes.size() << endl;
+    if (key != 'r' && key != 'R'){
+        this->keystrokes.push_back(key);
+    }
 }
 
 void ofApp::timer()
