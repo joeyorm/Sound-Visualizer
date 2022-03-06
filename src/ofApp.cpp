@@ -6,15 +6,16 @@ using namespace std;
 //--------------------------------------------------------------
 void ofApp::setup()
 {
-    sound.loadSound("beat.wav");       // Loads a sound file (in bin/data/)
-    sound.setLoop(true);               // Makes the song loop indefinitely
-    sound.setVolume(1);                // Sets the song volume
+    sound.loadSound("beat.wav"); // Loads a sound file (in bin/data/)
+    sound.setLoop(true);         // Makes the song loop indefinitely
+    sound.setVolume(1);          // Sets the song volume
     ofSetBackgroundColor(256, 256, 256);
-    myFont1.load("Metropo.ttf", 30);
-    myFont2.load("Carbon.ttf", 30);
-    myFont3.load("Gravis.ttf",30);
-    myFont4.load("Highup.ttf",30);
-     // Sets the Background Color                    // sets the timer to 0
+    myFont1.load("Lato-Regular.ttf", 15);
+    myFont2.load("Gravis.ttf", 30);
+    myFont3.load("Lato-Regular.ttf", 25);
+    pressP = "Press 'P' to play some music!";
+
+    // Sets the Background Color                    // sets the timer to 0
 }
 
 //--------------------------------------------------------------
@@ -25,6 +26,14 @@ void ofApp::update()
     ofSoundUpdate();               // Updates all sound players
     visualizer.updateAmplitudes(); // Updates Amplitudes for visualizer
     timer();                       // Updates the iterator every second (nonstop)
+
+    if (booleanTimer(3))
+    {
+        randomInt1 = ofRandom(0, 255);
+        randomInt2 = ofRandom(0, 255);
+        randomInt3 = ofRandom(0, 255);
+        //  ofSetColor(ofRandom(0, 135), ofRandom(0, 255), ofRandom(0, 255));
+    }
 }
 
 //--------------------------------------------------------------
@@ -37,12 +46,26 @@ void ofApp::draw()
     It's in charge of drawing all figures and text on screen */
 
     if (!playing)
-    {   
-        myFont3.drawString("Press 'P' to play some music!", ofGetWidth() / 2 - 50, ofGetHeight() / 2 );
-        // ofDrawBitmapString("Press 'p' to play some music!", ofGetWidth() / 2 - 50, ofGetHeight() / 2);
-        ofDrawBitmapString(keystrokes.size(), ofGetWidth() / 2, ofGetHeight() / 2 - 40);
-        ofDrawBitmapString(to_string(ofGetFrameNum() % 60), ofGetWidth() / 2, ofGetHeight() / 2 - 25);
+    {
+        ofSetColor(0, 0, 0);
+        myFont2.drawString(pressP, ofGetWidth() / 2 - myFont2.stringWidth(pressP) / 2, ofGetHeight() / 2 - myFont2.stringHeight(pressP) / 2);
+        ofSetColor(randomInt1, randomInt2, randomInt3);
     }
+
+    if (helpButtons)
+    {
+        ofSetColor(0, 0, 0);
+        ofDrawRectRounded(250, 220, 500, 300, 50);
+        ofSetColor(255, 255, 255);
+        myFont1.drawString("NRK: " + to_string(keystrokes.size()), 300, 340);
+        myFont1.drawString("FPS: " + to_string(ofGetFrameNum() % 60), 300, 300);
+        myFont1.drawString("Volume down: '-'", 300, 380);
+        myFont1.drawString("Volume up: '='", 300, 420);
+        myFont1.drawString("X: " + to_string(ofGetMouseX()) + ", Y: " + to_string(ofGetMouseY()), 300, 460);
+        myFont2.drawString("Help", 450, 265);
+        ofSetColor(randomInt1, randomInt2, randomInt3);
+    }
+
     vector<float> amplitudes = visualizer.getAmplitudes();
     if (mode == '1')
     {
@@ -60,27 +83,26 @@ void ofApp::draw()
 void ofApp::drawMode1(vector<float> amplitudes)
 {
     ofFill(); // Drawn Shapes will be filled in with color
-              // ofSetColor(256); // This resets the color of the "brush" to white
-    ofDrawBitmapString("Rectangle Height Visualizer", 0, 15);
-    if (booleanTimer(5))
-    {
-        ofSetColor(ofRandom(0, 135), ofRandom(0, 255), ofRandom(0, 255));
-    }
+    ofSetColor(0, 0, 0);
+    myFont1.drawString("Rectangle Height Visualizer", 0, 25);
+
+    ofSetColor(randomInt1, randomInt2, randomInt3);
     ofDrawRectangle(2, ofGetHeight() - 100, 50, amplitudes[0]);
-    // ofSetColor(256);
 }
 void ofApp::drawMode2(vector<float> amplitudes)
 {
     ofSetLineWidth(5); // Sets the line width
     ofNoFill();        // Only the outline of shapes will be drawn
-    // ofSetColor(256); // This resets the color of the "brush" to white
-    ofDrawBitmapString("Circle Radius Visualizer", 0, 15);
+    ofSetColor(0, 0, 0);
+    myFont1.drawString("Circle Radius Visualizer", 0, 25);
     int bands = amplitudes.size();
     for (int i = 0; i < bands; i++)
     {
         if (booleanTimer(5))
         {
-            ofSetColor((bands - i) * 32 % 256, ofRandom(0, 255), ofRandom(0, 255));
+            int i;
+            i = ofRandom(0, 3);
+            ofSetColor((bands - i) * 32 % 256, randomInt1, randomInt2);
         } // Color varies between frequencies
         ofDrawCircle(ofGetWidth() / 2, ofGetHeight() / 2, amplitudes[0] / (i + 1));
     }
@@ -91,8 +113,8 @@ void ofApp::drawMode3(vector<float> amplitudes)
     if (booleanTimer(5))
     {
         ofSetColor(ofRandom(0, 135), ofRandom(0, 255), ofRandom(0, 255));
-    } // This resets the color of the "brush" to white
-    ofDrawBitmapString("Rectangle Width Visualizer", 0, 15);
+    }
+    myFont1.drawString("Rectangle Width Visualizer", 0, 25);
     // YOUR CODE HERE
 }
 
@@ -132,7 +154,15 @@ void ofApp::keyPressed(int key)
         {
             recording = true;
         }
-
+    case 'h':
+        if (helpButtons)
+        {
+            helpButtons = false;
+        }
+        else
+        {
+            helpButtons = true;
+        }
     }
     if (recording)
     {

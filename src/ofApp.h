@@ -30,12 +30,22 @@ public:
 	void gotMessage(ofMessage msg);
 	void Recorder(int key);
 
+
 	bool booleanTimer(int intervalToReturnBool);
+	bool helpButtons = false;
+	float randomInt1;
+	float randomInt2;
+	float randomInt3;
 
 	ofTrueTypeFont myFont1;
 	ofTrueTypeFont myFont2;
 	ofTrueTypeFont myFont3;
-	ofTrueTypeFont myFont4;
+	
+	string pressP;
+	string keyStrokeRecord;
+	string FPS;
+
+
 
 private:
 	ofSoundPlayer sound;
