@@ -36,6 +36,7 @@ public:
 	float randomInt1;
 	float randomInt2;
 	float randomInt3;
+	int currentVol;
 
 	ofTrueTypeFont myFont1;
 	ofTrueTypeFont myFont2;

@@ -8,7 +8,8 @@ void ofApp::setup()
 {
     sound.loadSound("beat.wav"); // Loads a sound file (in bin/data/)
     sound.setLoop(true);         // Makes the song loop indefinitely
-    sound.setVolume(1);          // Sets the song volume
+    currentVol = 1;
+    sound.setVolume(currentVol); // Sets the song volume
     ofSetBackgroundColor(256, 256, 256);
     myFont1.load("Lato-Regular.ttf", 15);
     myFont2.load("Gravis.ttf", 30);
@@ -23,7 +24,8 @@ void ofApp::update()
 {
     /* The update method is called muliple times per second
     It's in charge of updating variables and the logic of our app */
-    ofSoundUpdate();               // Updates all sound players
+    ofSoundUpdate(); // Updates all sound players
+    sound.setVolume(currentVol);
     visualizer.updateAmplitudes(); // Updates Amplitudes for visualizer
     timer();                       // Updates the iterator every second (nonstop)
 
@@ -52,7 +54,7 @@ void ofApp::draw()
         ofSetColor(randomInt1, randomInt2, randomInt3);
     }
 
-    if (helpButtons)
+    if (helpButtons) //Here I created a rectangle that contains some info such as FPS, some buttons etc
     {
         ofSetColor(0, 0, 0);
         ofDrawRectRounded(250, 220, 500, 300, 50);
@@ -93,9 +95,12 @@ void ofApp::drawMode2(vector<float> amplitudes)
 {
     ofSetLineWidth(5); // Sets the line width
     ofNoFill();        // Only the outline of shapes will be drawn
+
     ofSetColor(0, 0, 0);
     myFont1.drawString("Circle Radius Visualizer", 0, 25);
+
     int bands = amplitudes.size();
+    
     for (int i = 0; i < bands; i++)
     {
         if (booleanTimer(5))
@@ -144,6 +149,12 @@ void ofApp::keyPressed(int key)
         break;
     case '3':
         mode = '3';
+        break;
+    case '-':
+        currentVol--;
+        break;
+    case '=':
+        currentVol++;
         break;
     case 'r':
         if (recording)
