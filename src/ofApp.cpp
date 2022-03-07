@@ -36,7 +36,7 @@ void ofApp::update()
         randomInt3 = ofRandom(0, 255);
         //  ofSetColor(ofRandom(0, 135), ofRandom(0, 255), ofRandom(0, 255));
     }
-    if (booleanTimer(2) && replay)
+    if (booleanTimer(2) && replay && not cancel)
     {
         keyPressed(keystrokes[k]);
         k++;
@@ -214,7 +214,7 @@ void ofApp::keyPressed(int key)
             break;
         }
     case 'c':
-        cancel = true;
+        cancel = !cancel;
         break;
     }
     if (recording)
