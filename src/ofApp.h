@@ -37,7 +37,9 @@ public:
 	float randomInt2;
 	float randomInt3;
 	int currentVol;
-
+	int iter = 0;
+	int iter2 = 0;
+	
 	ofTrueTypeFont myFont1;
 	ofTrueTypeFont myFont2;
 	ofTrueTypeFont myFont3;

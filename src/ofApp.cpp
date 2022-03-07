@@ -6,7 +6,7 @@ using namespace std;
 //--------------------------------------------------------------
 void ofApp::setup()
 {
-    sound.loadSound("beat.wav"); // Loads a sound file (in bin/data/)
+    sound.loadSound("rock-song.wav"); // Loads a sound file (in bin/data/)
     sound.setLoop(true);         // Makes the song loop indefinitely
     currentVol = 1;
     sound.setVolume(currentVol); // Sets the song volume
@@ -54,9 +54,10 @@ void ofApp::draw()
         ofSetColor(randomInt1, randomInt2, randomInt3);
     }
 
-    if (helpButtons) //Here I created a rectangle that contains some info such as FPS, some buttons etc
+    if (helpButtons) // Here I created a rectangle that contains some info such as FPS, some buttons etc
     {
         ofSetColor(0, 0, 0);
+        ofFill();
         ofDrawRectRounded(250, 220, 500, 300, 50);
         ofSetColor(255, 255, 255);
         myFont1.drawString("NRK: " + to_string(keystrokes.size()), 300, 340);
@@ -89,38 +90,49 @@ void ofApp::drawMode1(vector<float> amplitudes)
     myFont1.drawString("Rectangle Height Visualizer", 0, 25);
 
     ofSetColor(randomInt1, randomInt2, randomInt3);
-    ofDrawRectangle(2, ofGetHeight() - 100, 50, amplitudes[0]);
+    for (int i = 0; i < ofGetWidth(); i += ofGetWidth()/64)
+    {
+        ofDrawRectangle(i, ofGetHeight(), 32, amplitudes[iter]);
+        iter++;
+        if (iter == 64)
+        {
+            iter = 0;
+        }
+    }
 }
 void ofApp::drawMode2(vector<float> amplitudes)
 {
-    ofSetLineWidth(5); // Sets the line width
-    ofNoFill();        // Only the outline of shapes will be drawn
-
     ofSetColor(0, 0, 0);
+    ofSetLineWidth(5);  // Sets the line width
+    ofNoFill();  // Only the outline of shapes will be drawn
     myFont1.drawString("Circle Radius Visualizer", 0, 25);
 
     int bands = amplitudes.size();
-    
-    for (int i = 0; i < bands; i++)
+    for (int j = 0; j < bands; j++)
     {
-        if (booleanTimer(5))
-        {
-            int i;
-            i = ofRandom(0, 3);
-            ofSetColor((bands - i) * 32 % 256, randomInt1, randomInt2);
-        } // Color varies between frequencies
+        int i;
+        i = ofRandom(0, 3);
+        ofSetColor((bands - i) * 32 % 256, randomInt1, randomInt2);
         ofDrawCircle(ofGetWidth() / 2, ofGetHeight() / 2, amplitudes[0] / (i + 1));
     }
 }
 
 void ofApp::drawMode3(vector<float> amplitudes)
 {
-    if (booleanTimer(5))
-    {
-        ofSetColor(ofRandom(0, 135), ofRandom(0, 255), ofRandom(0, 255));
-    }
+    ofFill();
+    ofSetColor(0, 0, 0);
     myFont1.drawString("Rectangle Width Visualizer", 0, 25);
-    // YOUR CODE HERE
+
+    ofSetColor(randomInt1, randomInt2, randomInt3);
+     for (int i = 0; i < ofGetHeight(); i += ofGetHeight()/64)
+    {
+        ofDrawRectangle(ofGetWidth(), i , amplitudes[iter2], 32 );
+        iter2++;
+        if (iter2 == 64)
+        {
+            iter2 = 0;
+        }
+    }
 }
 
 //--------------------------------------------------------------
@@ -237,7 +249,8 @@ void ofApp::dragEvent(ofDragInfo dragInfo)
 
 void ofApp::Recorder(int key)
 {
-    if (key != 'r' && key != 'R'){
+    if (key != 'r' && key != 'R')
+    {
         this->keystrokes.push_back(key);
     }
 }
