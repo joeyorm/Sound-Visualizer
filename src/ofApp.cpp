@@ -1,7 +1,7 @@
 #include "ofApp.h"
 #include <vector>
 #include <iostream>
-using namespace std;//None
+using namespace std;//Nonef
 
 //--------------------------------------------------------------
 void ofApp::setup()
