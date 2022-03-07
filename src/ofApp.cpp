@@ -22,10 +22,10 @@ void ofApp::update()
 {
     /* The update method is called muliple times per second
     It's in charge of updating variables and the logic of our app */
-    ofSoundUpdate(); // Updates all sound players
-    sound.setVolume(currentVol);
+    ofSoundUpdate();               // Updates all sound players
+    sound.setVolume(currentVol);   // Sets volume when user presses "-" or "="
     visualizer.updateAmplitudes(); // Updates Amplitudes for visualizer
-    timer();                       // Updates the iterator every second (nonstop)
+    timer();                       // counts seconds passed since start
 
     if (booleanTimer(3))
     {
