@@ -71,6 +71,7 @@ void ofApp::draw()
     ofBackgroundGradient(colorOne, colorTwo, OF_GRADIENT_LINEAR);
 
     ofSetColor(0, 0, 0);
+    string currentMusic = playlist[nextOne];
     myFont2.drawString(currentMusic, 0, 75); // will draw current music
 
     if (recording) // will draw REC when user presses r and recording

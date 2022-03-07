@@ -52,7 +52,7 @@ public:
 	ofTrueTypeFont myFont2;
 	ofTrueTypeFont myFont3;
 	
-	string currentMusic = playlist[nextOne];
+	string currentMusic;
 	string pressP;
 	string keyStrokeRecord;
 	string FPS;
