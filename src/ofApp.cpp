@@ -77,7 +77,7 @@ void ofApp::draw()
     myFont2.drawString(currentMusic, 0, 75);
     if (recording)
     { // will draw a REC on screen when the user presses r and is recording
-        if (secondsPassed % 2)
+        if (secondsPassed % 2) //change
         {
             ofSetColor(155, 0, 0);
             myFont2.drawString("REC", 0, 125);
