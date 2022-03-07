@@ -9,14 +9,12 @@ void ofApp::setup()
     sound.loadSound(playlist[nextOne]); // Loads a sound file (in bin/data/)
     sound.setLoop(true);                // Makes the song loop indefinitely
     currentVol = 0.5;
-    sound.setVolume(currentVol);        // Sets the song volume
-    ofSetBackgroundColor(256, 256, 256);// Sets the Background Color   
+    sound.setVolume(currentVol);         // Sets the song volume
+    ofSetBackgroundColor(256, 256, 256); // Sets the Background Color
     myFont1.load("Lato-Regular.ttf", 15);
     myFont2.load("Gravis.ttf", 30);
     myFont3.load("Lato-Regular.ttf", 25);
     pressP = "Press 'P' to play some music!";
-
-                     
 }
 
 //--------------------------------------------------------------
