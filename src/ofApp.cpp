@@ -8,7 +8,7 @@ void ofApp::setup()
 {
     sound.loadSound("rock-song.wav"); // Loads a sound file (in bin/data/)
     sound.setLoop(true);              // Makes the song loop indefinitely
-    currentVol = 1;
+    currentVol = 0.5;
     sound.setVolume(currentVol); // Sets the song volume
     ofSetBackgroundColor(256, 256, 256);
     myFont1.load("Lato-Regular.ttf", 15);
@@ -189,10 +189,16 @@ void ofApp::keyPressed(int key)
         mode = '3';
         break;
     case '-':
-        currentVol--;
+        if (currentVol > 0)
+        {
+            currentVol -= 0.1;
+        }
         break;
     case '=':
-        currentVol++;
+        if (currentVol < 1)
+        {
+            currentVol += 0.1;
+        }
         break;
     case 'r':
         if (recording)

@@ -39,7 +39,7 @@ public:
 	float randomInt2;
 	float randomInt3;
 	int secondsPassed;
-	int currentVol;
+	double currentVol;
 	int iter = 0;
 	int iter2 = 0;
 	int k = 0;
