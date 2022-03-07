@@ -251,10 +251,10 @@ void ofApp::keyPressed(int key)
         nextMusic = true;
         break;
 
-        if (recording)
-        {
-            this->Recorder(key);
-        }
+    if (recording)
+    {
+        this->Recorder(key);
+    }
     }
 }
 //--------------------------------------------------------------
