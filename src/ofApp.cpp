@@ -96,6 +96,7 @@ void ofApp::draw()
         myFont1.drawString("FPS: " + to_string(ofGetFrameNum() % 60), 300, 300);
         myFont1.drawString("Volume down: '-'", 300, 380);
         myFont1.drawString("Volume up: '='", 300, 420);
+        // myFont1.drawString("Current volume: " + (currentVol);
         myFont1.drawString("X: " + to_string(ofGetMouseX()) + ", Y: " + to_string(ofGetMouseY()), 300, 460);
         myFont2.drawString("Help", 450, 265);
         ofSetColor(randomInt1, randomInt2, randomInt3);
@@ -189,13 +190,13 @@ void ofApp::keyPressed(int key)
         mode = '3';
         break;
     case '-':
-        if (currentVol > 0)
+        if (currentVol > 0.0)
         {
             currentVol -= 0.1;
         }
         break;
     case '=':
-        if (currentVol < 1)
+        if (currentVol < 1.0)
         {
             currentVol += 0.1;
         }
@@ -227,6 +228,8 @@ void ofApp::keyPressed(int key)
             cancel = !cancel;
             break;
         }
+    case 'n':
+        // for (i = 0)
     }
     if (recording)
     {
@@ -311,3 +314,5 @@ bool ofApp::booleanTimer(int intervalToReturnBool)
         return false;
     }
 }
+
+vector<string> playlist = {"beat.wav", "geesebeat.wav", "pigeon-coo.wav", "rock-song.wav"};

@@ -35,11 +35,13 @@ public:
 	bool helpButtons = false;
 	bool cancel = false;
 	bool replay = false;
+
 	float randomInt1;
 	float randomInt2;
 	float randomInt3;
 	int secondsPassed;
 	double currentVol;
+
 	int iter = 0;
 	int iter2 = 0;
 	int k = 0;
@@ -62,4 +64,5 @@ private:
 	bool playing = false;
 	char mode = '1';
 	vector<int> keystrokes;
+	vector<string> playlist;
 };
