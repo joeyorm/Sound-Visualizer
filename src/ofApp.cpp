@@ -9,14 +9,14 @@ void ofApp::setup()
     sound.loadSound(playlist[nextOne]); // Loads a sound file (in bin/data/)
     sound.setLoop(true);                // Makes the song loop indefinitely
     currentVol = 0.5;
-    sound.setVolume(currentVol); // Sets the song volume
-    ofSetBackgroundColor(256, 256, 256);
+    sound.setVolume(currentVol);        // Sets the song volume
+    ofSetBackgroundColor(256, 256, 256);// Sets the Background Color   
     myFont1.load("Lato-Regular.ttf", 15);
     myFont2.load("Gravis.ttf", 30);
     myFont3.load("Lato-Regular.ttf", 25);
     pressP = "Press 'P' to play some music!";
 
-    // Sets the Background Color                    // sets the timer to 0
+                     
 }
 
 //--------------------------------------------------------------
@@ -82,7 +82,7 @@ void ofApp::draw()
         if (secondsPassed % 2)
         {
             ofSetColor(155, 0, 0);
-            myFont2.drawString("REC", 0, 100);
+            myFont2.drawString("REC", 0, 125);
         }
     }
     if (!playing)
@@ -250,11 +250,11 @@ void ofApp::keyPressed(int key)
     case 'n':
         nextMusic = true;
         break;
+    }
 
     if (recording)
     {
         this->Recorder(key);
-    }
     }
 }
 //--------------------------------------------------------------
