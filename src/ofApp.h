@@ -33,6 +33,8 @@ public:
 
 	bool booleanTimer(int intervalToReturnBool);
 	bool helpButtons = false;
+	bool cancel = false;
+	bool replay = false;
 	float randomInt1;
 	float randomInt2;
 	float randomInt3;
@@ -40,6 +42,7 @@ public:
 	int currentVol;
 	int iter = 0;
 	int iter2 = 0;
+	int k = 0;
 	
 	ofTrueTypeFont myFont1;
 	ofTrueTypeFont myFont2;

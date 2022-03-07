@@ -7,7 +7,7 @@ using namespace std;
 void ofApp::setup()
 {
     sound.loadSound("rock-song.wav"); // Loads a sound file (in bin/data/)
-    sound.setLoop(true);         // Makes the song loop indefinitely
+    sound.setLoop(true);              // Makes the song loop indefinitely
     currentVol = 1;
     sound.setVolume(currentVol); // Sets the song volume
     ofSetBackgroundColor(256, 256, 256);
@@ -36,6 +36,16 @@ void ofApp::update()
         randomInt3 = ofRandom(0, 255);
         //  ofSetColor(ofRandom(0, 135), ofRandom(0, 255), ofRandom(0, 255));
     }
+    if (booleanTimer(2) && replay)
+    {
+        keyPressed(keystrokes[k]);
+        k++;
+        if (k >= keystrokes.size())
+        {
+            k = 0;
+            replay = false;
+        }
+    }
 }
 
 //--------------------------------------------------------------
@@ -46,10 +56,12 @@ void ofApp::draw()
     ofBackgroundGradient(colorOne, colorTwo, OF_GRADIENT_LINEAR);
     /* The update method is called muliple times per second
     It's in charge of drawing all figures and text on screen */
-    if(recording){  // will draw a REC on screen when the user presses r and is recording
-        if(secondsPassed % 2){
-        ofSetColor(155, 0, 0);
-        myFont3.drawString("REC", 0, 70);
+    if (recording)
+    { // will draw a REC on screen when the user presses r and is recording
+        if (secondsPassed % 2)
+        {
+            ofSetColor(155, 0, 0);
+            myFont3.drawString("REC", 0, 70);
         }
     }
     if (!playing)
@@ -95,7 +107,7 @@ void ofApp::drawMode1(vector<float> amplitudes)
     myFont1.drawString("Rectangle Height Visualizer", 0, 25);
 
     ofSetColor(randomInt1, randomInt2, randomInt3);
-    for (int i = 0; i < ofGetWidth(); i += ofGetWidth()/64)
+    for (int i = 0; i < ofGetWidth(); i += ofGetWidth() / 64)
     {
         ofDrawRectangle(i, ofGetHeight(), 32, amplitudes[iter]);
         iter++;
@@ -108,8 +120,8 @@ void ofApp::drawMode1(vector<float> amplitudes)
 void ofApp::drawMode2(vector<float> amplitudes)
 {
     ofSetColor(0, 0, 0);
-    ofSetLineWidth(5);  // Sets the line width
-    ofNoFill();  // Only the outline of shapes will be drawn
+    ofSetLineWidth(5); // Sets the line width
+    ofNoFill();        // Only the outline of shapes will be drawn
     myFont1.drawString("Circle Radius Visualizer", 0, 25);
 
     int bands = amplitudes.size();
@@ -129,9 +141,9 @@ void ofApp::drawMode3(vector<float> amplitudes)
     myFont1.drawString("Rectangle Width Visualizer", 0, 25);
 
     ofSetColor(randomInt1, randomInt2, randomInt3);
-     for (int i = 0; i < ofGetHeight(); i += ofGetHeight()/64)
+    for (int i = 0; i < ofGetHeight(); i += ofGetHeight() / 64)
     {
-        ofDrawRectangle(ofGetWidth(), i , amplitudes[iter2], 32 );
+        ofDrawRectangle(ofGetWidth(), i, amplitudes[iter2], 32);
         iter2++;
         if (iter2 == 64)
         {
@@ -148,15 +160,21 @@ void ofApp::keyPressed(int key)
     switch (key)
     {
     case 'p':
-        if (playing)
+        if (playing && not cancel && not recording && keystrokes.size() > k)
         {
+            replay = true;
+        }
+        else if (playing)
+        {
+            playing = !playing;
             sound.stop();
         }
         else
         {
+            playing = !playing;
             sound.play();
         }
-        playing = !playing;
+
         break;
     case '1':
         mode = '1';
@@ -195,6 +213,9 @@ void ofApp::keyPressed(int key)
             helpButtons = true;
             break;
         }
+    case 'c':
+        cancel = true;
+        break;
     }
     if (recording)
     {
