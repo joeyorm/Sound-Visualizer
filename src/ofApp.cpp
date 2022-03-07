@@ -40,9 +40,10 @@ void ofApp::update()
     {
         keyPressed(keystrokes[k]);
         k++;
-        if (k >= keystrokes.size())
+        if (k > keystrokes.size())
         {
             k = 0;
+            keystrokes.clear();
             replay = false;
         }
     }
@@ -71,6 +72,20 @@ void ofApp::draw()
         ofSetColor(randomInt1, randomInt2, randomInt3);
     }
 
+    vector<float> amplitudes = visualizer.getAmplitudes();
+    if (mode == '1')
+    {
+        drawMode1(amplitudes);
+    }
+    else if (mode == '2')
+    {
+        drawMode2(amplitudes);
+    }
+    else if (mode == '3')
+    {
+        drawMode3(amplitudes);
+    }
+    
     if (helpButtons) // Here I created a rectangle that contains some info such as FPS, some buttons etc
     {
         ofSetColor(0, 0, 0);
@@ -84,20 +99,6 @@ void ofApp::draw()
         myFont1.drawString("X: " + to_string(ofGetMouseX()) + ", Y: " + to_string(ofGetMouseY()), 300, 460);
         myFont2.drawString("Help", 450, 265);
         ofSetColor(randomInt1, randomInt2, randomInt3);
-    }
-
-    vector<float> amplitudes = visualizer.getAmplitudes();
-    if (mode == '1')
-    {
-        drawMode1(amplitudes);
-    }
-    else if (mode == '2')
-    {
-        drawMode2(amplitudes);
-    }
-    else if (mode == '3')
-    {
-        drawMode3(amplitudes);
     }
 }
 void ofApp::drawMode1(vector<float> amplitudes)
@@ -160,21 +161,23 @@ void ofApp::keyPressed(int key)
     switch (key)
     {
     case 'p':
-        if (playing && not cancel && not recording && keystrokes.size() > k)
-        {
-            replay = true;
-        }
-        else if (playing)
+        if (playing)
         {
             playing = !playing;
             sound.stop();
         }
+
         else
         {
             playing = !playing;
             sound.play();
         }
-
+        break;
+    case 't':
+        if (not cancel && not recording && keystrokes.size() > k)
+        {
+            replay = true;
+        }
         break;
     case '1':
         mode = '1';
@@ -214,8 +217,10 @@ void ofApp::keyPressed(int key)
             break;
         }
     case 'c':
-        cancel = !cancel;
-        break;
+        if (replay){
+            cancel = !cancel;
+            break;
+        }
     }
     if (recording)
     {
