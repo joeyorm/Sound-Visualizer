@@ -46,7 +46,12 @@ void ofApp::draw()
     ofBackgroundGradient(colorOne, colorTwo, OF_GRADIENT_LINEAR);
     /* The update method is called muliple times per second
     It's in charge of drawing all figures and text on screen */
-
+    if(recording){  // will draw a REC on screen when the user presses r and is recording
+        if(secondsPassed % 2){
+        ofSetColor(155, 0, 0);
+        myFont3.drawString("REC", 0, 70);
+        }
+    }
     if (!playing)
     {
         ofSetColor(0, 0, 0);
@@ -259,7 +264,6 @@ void ofApp::timer()
 {
     if (ofGetFrameNum() % 60 == 0)
     {
-        int secondsPassed;
         secondsPassed++;
     }
 }

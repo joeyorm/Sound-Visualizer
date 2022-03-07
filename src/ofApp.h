@@ -36,6 +36,7 @@ public:
 	float randomInt1;
 	float randomInt2;
 	float randomInt3;
+	int secondsPassed;
 	int currentVol;
 	int iter = 0;
 	int iter2 = 0;
