@@ -52,9 +52,12 @@ public:
 	ofTrueTypeFont myFont2;
 	ofTrueTypeFont myFont3;
 	
+	string currentMusic = playlist[nextOne];
 	string pressP;
 	string keyStrokeRecord;
 	string FPS;
+
+	
 
 	vector<string> playlist = {"beat.wav", "geesebeat.wav", "pigeon-coo.wav", "rock-song.wav"};
 
