@@ -35,6 +35,7 @@ public:
 	bool helpButtons = false;
 	bool cancel = false;
 	bool replay = false;
+	bool nextMusic = false;
 
 	float randomInt1;
 	float randomInt2;
@@ -45,6 +46,7 @@ public:
 	int iter = 0;
 	int iter2 = 0;
 	int k = 0;
+	int nextOne = 0;
 	
 	ofTrueTypeFont myFont1;
 	ofTrueTypeFont myFont2;
@@ -53,6 +55,8 @@ public:
 	string pressP;
 	string keyStrokeRecord;
 	string FPS;
+
+	vector<string> playlist = {"beat.wav", "geesebeat.wav", "pigeon-coo.wav", "rock-song.wav"};
 
 
 
@@ -64,5 +68,5 @@ private:
 	bool playing = false;
 	char mode = '1';
 	vector<int> keystrokes;
-	vector<string> playlist;
+	
 };

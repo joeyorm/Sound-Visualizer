@@ -6,8 +6,8 @@ using namespace std;
 //--------------------------------------------------------------
 void ofApp::setup()
 {
-    sound.loadSound("rock-song.wav"); // Loads a sound file (in bin/data/)
-    sound.setLoop(true);              // Makes the song loop indefinitely
+    sound.loadSound(playlist[nextOne]); // Loads a sound file (in bin/data/)
+    sound.setLoop(true);                // Makes the song loop indefinitely
     currentVol = 0.5;
     sound.setVolume(currentVol); // Sets the song volume
     ofSetBackgroundColor(256, 256, 256);
@@ -47,6 +47,23 @@ void ofApp::update()
             replay = false;
         }
     }
+
+    if (nextMusic)
+    {
+        nextOne++;
+        if (nextOne < playlist.size())
+        {
+            sound.loadSound(playlist[nextOne]);
+            playing = true;
+            sound.play();
+            sound.setLoop(true);
+        }
+        else
+        {
+            nextOne = 0;
+        }
+        nextMusic = false;
+    }
 }
 
 //--------------------------------------------------------------
@@ -57,12 +74,15 @@ void ofApp::draw()
     ofBackgroundGradient(colorOne, colorTwo, OF_GRADIENT_LINEAR);
     /* The update method is called muliple times per second
     It's in charge of drawing all figures and text on screen */
+    ofSetColor(0, 0, 0);
+    string currentMusic = playlist[nextOne];
+    myFont2.drawString(currentMusic, 0, 75);
     if (recording)
     { // will draw a REC on screen when the user presses r and is recording
         if (secondsPassed % 2)
         {
             ofSetColor(155, 0, 0);
-            myFont3.drawString("REC", 0, 70);
+            myFont2.drawString("REC", 0, 100);
         }
     }
     if (!playing)
@@ -85,7 +105,7 @@ void ofApp::draw()
     {
         drawMode3(amplitudes);
     }
-    
+
     if (helpButtons) // Here I created a rectangle that contains some info such as FPS, some buttons etc
     {
         ofSetColor(0, 0, 0);
@@ -96,7 +116,7 @@ void ofApp::draw()
         myFont1.drawString("FPS: " + to_string(ofGetFrameNum() % 60), 300, 300);
         myFont1.drawString("Volume down: '-'", 300, 380);
         myFont1.drawString("Volume up: '='", 300, 420);
-        // myFont1.drawString("Current volume: " + (currentVol);
+        myFont1.drawString("Volume: " + to_string(currentVol), 500, 300);
         myFont1.drawString("X: " + to_string(ofGetMouseX()) + ", Y: " + to_string(ofGetMouseY()), 300, 460);
         myFont2.drawString("Help", 450, 265);
         ofSetColor(randomInt1, randomInt2, randomInt3);
@@ -205,38 +225,38 @@ void ofApp::keyPressed(int key)
         if (recording)
         {
             recording = false;
-            break;
         }
         else
         {
             recording = true;
-            break;
         }
+        break;
     case 'h':
         if (helpButtons)
         {
             helpButtons = false;
-            break;
         }
         else
         {
             helpButtons = true;
-            break;
         }
+        break;
     case 'c':
-        if (replay){
+        if (replay)
+        {
             cancel = !cancel;
-            break;
         }
+        break;
     case 'n':
-        // for (i = 0)
-    }
-    if (recording)
-    {
-        this->Recorder(key);
+        nextMusic = true;
+        break;
+
+        if (recording)
+        {
+            this->Recorder(key);
+        }
     }
 }
-
 //--------------------------------------------------------------
 void ofApp::keyReleased(int key)
 {
@@ -314,5 +334,3 @@ bool ofApp::booleanTimer(int intervalToReturnBool)
         return false;
     }
 }
-
-vector<string> playlist = {"beat.wav", "geesebeat.wav", "pigeon-coo.wav", "rock-song.wav"};
