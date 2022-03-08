@@ -23,9 +23,13 @@ void ofApp::update()
 {
     ofSetBackgroundColor(256, 256, 256); // Sets the Background Color
     ofSoundUpdate();                     // Updates all sound players
-    sound.setVolume(currentVol);         // Sets volume when user presses "-" or "="
-    visualizer.updateAmplitudes();       // Updates Amplitudes for visualizer
-    timer();                             // counts seconds passed since start
+    sound.setVolume(currentVol);
+    timer(); // counts seconds passed since start
+
+    if (not ampStop)
+    {                                  // Sets volume when user presses "-" or "="
+        visualizer.updateAmplitudes(); // Updates Amplitudes for visualizer
+    }
 
     if (booleanTimer(3))
     {
@@ -34,7 +38,7 @@ void ofApp::update()
         randomInt3 = ofRandom(0, 255);
     }
 
-    if (booleanTimer(2) && replay && not cancel) //(RECORDER)//FIXME:
+    if (booleanTimer(2) && replay && not cancel) //(RECORDER)
     {
         keyPressed(keystrokes[k]);
         k++;
@@ -210,7 +214,7 @@ void ofApp::drawMode4(vector<float> amplitudes)
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key)
 {
-    
+
     if (replay && key != 'c')
     {
         keyVal = keystrokes[k];
@@ -219,6 +223,11 @@ void ofApp::keyPressed(int key)
     else
     {
         keyVal = key;
+    }
+
+    if (recording && key != 'r')
+    {
+        this->keystrokes.push_back(key);
     }
 
     switch (key)
@@ -292,11 +301,9 @@ void ofApp::keyPressed(int key)
     case 'n': // toggle nextMusic
         nextMusic = true;
         break;
-    }
-
-    if (recording && key != 'r')
-    {
-        this->keystrokes.push_back(key);
+    case 'a': // toggle Amplitudes stop
+        ampStop = !ampStop;
+        break;
     }
 }
 //--------------------------------------------------------------

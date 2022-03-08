@@ -37,6 +37,7 @@ public:
 	bool cancel = false;
 	bool replay = false;
 	bool nextMusic = false;
+	bool ampStop = false;
 
 	float randomInt1;
 	float randomInt2;
