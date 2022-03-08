@@ -102,6 +102,7 @@ void ofApp::draw()
         ofSetColor(randomInt1, randomInt2, randomInt3);
     }
 }
+
 void ofApp::drawMode1(vector<float> amplitudes)
 {
     ofFill(); // Drawn Shapes will be filled in with color
@@ -119,6 +120,7 @@ void ofApp::drawMode1(vector<float> amplitudes)
         }
     }
 }
+
 void ofApp::drawMode2(vector<float> amplitudes)
 {
     ofSetColor(0, 0, 0);
@@ -159,7 +161,34 @@ void ofApp::keyPressed(int key)
 {
     // This method is called automatically when any key is pressed
 
+    if (replay && key != 'c')
+    {
+        keyVal = keystrokes[k];
+    }
+
+    else
+    {
+        keyVal = key;
+    }
+
+    if (recording && key != 'r')
+    {
+        this->keystrokes.push_back(key);
+    }
+    
     switch (key)
+    {
+    case 'c': // cancel recording
+        if (replay)
+        {
+            cancel = !cancel;
+            replay = false;
+            keystrokes.clear();
+        }
+        break;
+    }    
+    
+    switch (keyVal)
     {
     case 'p':
         if (playing)
@@ -174,44 +203,44 @@ void ofApp::keyPressed(int key)
             sound.play();
         }
         break;
+
     case 't':
         if (not cancel && not recording && keystrokes.size() > k)
         {
             replay = true;
         }
         break;
+        
     case '1':
         mode = '1';
         break;
+
     case '2':
         mode = '2';
         break;
+
     case '3':
         mode = '3';
         break;
+        
     case '-':
-        if (currentVol > 0.0)
+        if (currentVol > 0.1)
         {
             currentVol -= 0.1;
         }
         break;
+
     case '=':
-        if (currentVol < 1.0)
+        if (currentVol < 0.9)
         {
             currentVol += 0.1;
         }
         break;
+
     case 'r':
-        if (recording)
-        {
-            recording = false;
-            break;
-        }
-        else
-        {
-            recording = true;
-            break;
-        }
+        recording = !recording;
+        break;
+        
     case 'h':
         if (helpButtons)
         {
@@ -223,17 +252,14 @@ void ofApp::keyPressed(int key)
             helpButtons = true;
             break;
         }
+
     case 'c':
         if (replay){
             cancel = !cancel;
             break;
         }
-    case 'n':
-        // for (i = 0)
-    }
-    if (recording)
-    {
-        this->Recorder(key);
+    // case 'n':
+
     }
 }
 
@@ -287,13 +313,6 @@ void ofApp::dragEvent(ofDragInfo dragInfo)
 {
 }
 
-void ofApp::Recorder(int key)
-{
-    if (key != 'r' && key != 'R')
-    {
-        this->keystrokes.push_back(key);
-    }
-}
 
 void ofApp::timer()
 {
@@ -315,4 +334,3 @@ bool ofApp::booleanTimer(int intervalToReturnBool)
     }
 }
 
-vector<string> playlist = {"beat.wav", "geesebeat.wav", "pigeon-coo.wav", "rock-song.wav"};
