@@ -70,6 +70,10 @@ public:
 
 
 
+	
+
+	vector<string> playlist = {"beat.wav", "geesebeat.wav", "pigeon-coo.wav", "rock-song.wav"};
+
 
 
 private:
