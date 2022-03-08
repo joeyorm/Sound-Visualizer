@@ -64,6 +64,8 @@ public:
 
 	vector<string> playlist = {"beat.wav", "geesebeat.wav", "pigeon-coo.wav", "rock-song.wav"};
 
+	ofLight light;
+
 
 
 private:

@@ -11,7 +11,7 @@ void ofApp::setup()
     sound.setLoop(true);                // Makes the song loop indefinitely
     currentVol = 0.5;
     sound.setVolume(currentVol);         // Sets the song volume
-    ofSetBackgroundColor(256, 256, 256); // Sets the Background Color
+    
     myFont1.load("Lato-Regular.ttf", 15);
     myFont2.load("Gravis.ttf", 30);
     myFont3.load("Lato-Regular.ttf", 25);
@@ -21,7 +21,7 @@ void ofApp::setup()
 //--------------------------------------------------------------
 void ofApp::update()
 {
-    
+    ofSetBackgroundColor(256, 256, 256); // Sets the Background Color
     ofSoundUpdate();               // Updates all sound players
     sound.setVolume(currentVol);   // Sets volume when user presses "-" or "="
     visualizer.updateAmplitudes(); // Updates Amplitudes for visualizer
@@ -186,8 +186,11 @@ void ofApp::drawMode3(vector<float> amplitudes)
 void ofApp::drawMode4(vector<float> amplitudes)
 {
     ofEnableDepthTest();
+    ofSetBackgroundColor(0,0,0);
     newBox.setPosition(0, 0, 0);
-    newBox.set(100, 10 * amplitudes[0] / 2, 100);
+    newBox.set(100, abs(2 * amplitudes[0] / 4) + 50, 100);
+    light.setPosition(0,100,-30);
+    light.enable();
 
     if (booleanTimer(3))
     {
@@ -200,6 +203,7 @@ void ofApp::drawMode4(vector<float> amplitudes)
     cam.begin();
     newBox.draw();
     cam.end();
+    light.disable();
     ofDisableDepthTest();
 }
 
