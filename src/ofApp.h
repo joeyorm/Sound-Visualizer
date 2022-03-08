@@ -47,6 +47,7 @@ public:
 	int iter2 = 0;
 	int k = 0;
 	int nextOne = 0;
+	int keyVal;
 	
 	ofTrueTypeFont myFont1;
 	ofTrueTypeFont myFont2;

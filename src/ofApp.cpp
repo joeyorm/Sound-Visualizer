@@ -177,8 +177,34 @@ void ofApp::drawMode3(vector<float> amplitudes)
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key)
 {
+    if (replay && key != 'c')
+    {
+        keyVal = keystrokes[k];
+    }
+
+    else
+    {
+        keyVal = key;
+    }
+
+    if (recording && key != 'r')
+    {
+        this->keystrokes.push_back(key);
+    }
 
     switch (key)
+    {
+    case 'c': // cancel recording
+        if (replay)
+        {
+            cancel = !cancel;
+            replay = false;
+            keystrokes.clear();
+        }
+        break;
+    }
+
+    switch (keyVal)
     {
     case 'p': //Play the visualizer
         if (playing)
@@ -208,26 +234,19 @@ void ofApp::keyPressed(int key)
         mode = '3';
         break;
     case '-': //lower volume
-        if (currentVol > 0.0)
+        if (currentVol > 0.1)
         {
             currentVol -= 0.1;
         }
         break;
     case '=': //volume up
-        if (currentVol < 1.0)
+        if (currentVol < 0.9)
         {
             currentVol += 0.1;
         }
         break;
     case 'r': //record
-        if (recording)
-        {
-            recording = false;
-        }
-        else
-        {
-            recording = true;
-        }
+        recording = !recording;
         break;
     case 'h': //draw help
         if (helpButtons)
@@ -239,21 +258,11 @@ void ofApp::keyPressed(int key)
             helpButtons = true;
         }
         break;
-    case 'c': //cancel recording
-        if (replay)
-        {
-            cancel = !cancel;
-        }
-        break;
     case 'n': //toggle nextMusic
         nextMusic = true;
         break;
     }
 
-    if (recording)
-    {
-        this->Recorder(key);
-    }
 }
 //--------------------------------------------------------------
 void ofApp::keyReleased(int key)
@@ -305,13 +314,6 @@ void ofApp::dragEvent(ofDragInfo dragInfo)
 {
 }
 
-void ofApp::Recorder(int key) //takes the recorded buttons inside a vector except r
-{
-    if (key != 'r')
-    {
-        this->keystrokes.push_back(key);
-    }
-}
 
 void ofApp::timer() //counts time passed
 {
