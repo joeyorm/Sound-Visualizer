@@ -188,26 +188,26 @@ void ofApp::drawMode3(vector<float> amplitudes)
 
 void ofApp::drawMode4(vector<float> amplitudes)
 {
-    ofEnableDepthTest();
-    ofSetBackgroundColor(0, 0, 0);
-    newBox.setPosition(0, 0, 0);
-    newBox.set(100, abs(2 * amplitudes[0] / 4) + 50, 100);
-    light.setPosition(0, 100, -30);
-    light.enable();
+    // ofEnableDepthTest();
+    // ofSetBackgroundColor(0, 0, 0);
+    // newBox.setPosition(0, 0, 0);
+    // newBox.set(100, abs(2 * amplitudes[0] / 4) + 50, 100);
+    // light.setPosition(0, 100, -30);
+    // light.enable();
 
-    if (booleanTimer(3))
-    {
-        for (int side = 0; side < 6; side++)
-        {
-            newBox.setSideColor(side, ofColor::fromHsb(ofRandom(255), 255, 255));
-        }
-    }
+    // if (booleanTimer(3))
+    // {
+    //     for (int side = 0; side < 6; side++)
+    //     {
+    //         newBox.setSideColor(side, ofColor::fromHsb(ofRandom(255), 255, 255));
+    //     }
+    // }
 
-    cam.begin();
-    newBox.draw();
-    cam.end();
-    light.disable();
-    ofDisableDepthTest();
+    // cam.begin();
+    // newBox.draw();
+    // cam.end();
+    // light.disable();
+    // ofDisableDepthTest();
 }
 
 //--------------------------------------------------------------
