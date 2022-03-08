@@ -15,8 +15,6 @@ void ofApp::setup()
     myFont2.load("Gravis.ttf", 30);
     myFont3.load("Lato-Regular.ttf", 25);
     pressP = "Press 'P' to play some music!";
-
-    // Sets the Background Color                    // sets the timer to 0
 }
 
 //--------------------------------------------------------------
@@ -37,7 +35,6 @@ void ofApp::update()
         randomInt1 = ofRandom(0, 255);
         randomInt2 = ofRandom(0, 255);
         randomInt3 = ofRandom(0, 255);
-        //  ofSetColor(ofRandom(0, 135), ofRandom(0, 255), ofRandom(0, 255));
     }
 
     if (booleanTimer(2) && replay && not cancel) //(RECORDER)
@@ -89,10 +86,11 @@ void ofApp::draw()
     {
         if (secondsPassed % 2) // every 2 seconds
         {
-            ofSetColor(155, 0, 0);
-            myFont3.drawString("REC", 0, 70);
+            ofSetColor(155, 0, 0); // red
+            myFont2.drawString("REC", 0, 125);
         }
     }
+
     if (!playing)
     {
         ofSetColor(0, 0, 0);
@@ -105,10 +103,12 @@ void ofApp::draw()
     {
         drawMode1(amplitudes);
     }
+
     else if (mode == '2')
     {
         drawMode2(amplitudes);
     }
+
     else if (mode == '3')
     {
         drawMode3(amplitudes);
@@ -128,16 +128,15 @@ void ofApp::draw()
         myFont1.drawString("FPS: " + to_string(ofGetFrameNum() % 60), 300, 300);
         myFont1.drawString("Volume down: '-'", 300, 380);
         myFont1.drawString("Volume up: '='", 300, 420);
-        // myFont1.drawString("Current volume: " + (currentVol);
+        myFont1.drawString("Volume: " + to_string(currentVol), 500, 300);
         myFont1.drawString("X: " + to_string(ofGetMouseX()) + ", Y: " + to_string(ofGetMouseY()), 300, 460);
         myFont2.drawString("Help", 450, 265);
         ofSetColor(randomInt1, randomInt2, randomInt3);
     }
 }
-
 void ofApp::drawMode1(vector<float> amplitudes)
 {
-    ofFill(); // Drawn Shapes will be filled in with color
+    ofFill();
     ofSetColor(0, 0, 0);
     myFont1.drawString("Rectangle Height Visualizer", 0, 25);
 
@@ -152,7 +151,6 @@ void ofApp::drawMode1(vector<float> amplitudes)
         }
     }
 }
-
 void ofApp::drawMode2(vector<float> amplitudes)
 {
     ofSetColor(0, 0, 0);
@@ -215,10 +213,6 @@ void ofApp::drawMode4(vector<float> amplitudes)
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key)
 {
-    if (replay && key != 'c')
-    {
-        keyVal = keystrokes[k];
-    }
 
     if (replay && key != 'c')
     {
@@ -254,7 +248,6 @@ void ofApp::keyPressed(int key)
             playing = !playing;
             sound.stop();
         }
-
         else
         {
             playing = !playing;
@@ -267,15 +260,12 @@ void ofApp::keyPressed(int key)
             replay = true;
         }
         break;
-        
     case '1':
         mode = '1';
         break;
-
     case '2':
         mode = '2';
         break;
-
     case '3':
         mode = '3';
         break;
@@ -300,7 +290,6 @@ void ofApp::keyPressed(int key)
         if (helpButtons)
         {
             helpButtons = false;
-            break;
         }
         else
         {
@@ -316,7 +305,6 @@ void ofApp::keyPressed(int key)
         break;
     }
 }
-
 //--------------------------------------------------------------
 void ofApp::keyReleased(int key)
 {
@@ -386,4 +374,3 @@ bool ofApp::booleanTimer(int intervalToReturnBool) // becomes true every n secon
         return false;
     }
 }
-
