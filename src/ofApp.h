@@ -4,6 +4,7 @@
 #include "AudioVisualizer.h"
 #include <vector>
 #include <iostream>
+#include "Screens.h"
 using namespace std;
 
 class ofApp : public ofBaseApp
@@ -29,8 +30,6 @@ public:
 	void windowResized(int w, int h);
 	void dragEvent(ofDragInfo dragInfo);
 	void gotMessage(ofMessage msg);
-	
-
 
 	bool booleanTimer(int intervalToReturnBool);
 	bool helpButtons = false;
@@ -50,11 +49,11 @@ public:
 	int k = 0;
 	int nextOne = 0;
 	int keyVal;
-	
+
 	ofTrueTypeFont myFont1;
 	ofTrueTypeFont myFont2;
 	ofTrueTypeFont myFont3;
-	
+
 	string currentMusic;
 	string pressP;
 	string keyStrokeRecord;
@@ -62,13 +61,12 @@ public:
 
 	ofBoxPrimitive newBox;
 	ofEasyCam cam;
-	
 
 	vector<string> playlist = {"beat.wav", "geesebeat.wav", "pigeon-coo.wav", "rock-song.wav"};
 
 	ofLight light;
 
-
+	Screens menu;
 
 private:
 	ofSoundPlayer sound;
@@ -78,5 +76,6 @@ private:
 	bool playing = false;
 	char mode = '1';
 	vector<int> keystrokes;
-	
 };
+
+
