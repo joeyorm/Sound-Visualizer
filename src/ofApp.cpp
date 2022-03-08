@@ -11,7 +11,7 @@ void ofApp::setup()
     sound.setLoop(true);                // Makes the song loop indefinitely
     currentVol = 0.5;
     sound.setVolume(currentVol);         // Sets the song volume
-    
+    ofSetBackgroundColor(256, 256, 256);
     myFont1.load("Lato-Regular.ttf", 15);
     myFont2.load("Gravis.ttf", 30);
     myFont3.load("Lato-Regular.ttf", 25);
@@ -210,7 +210,6 @@ void ofApp::drawMode4(vector<float> amplitudes)
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key)
 {
-
     switch (key)
     {
     case 'p': // Play the visualizer
