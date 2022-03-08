@@ -34,7 +34,7 @@ void ofApp::update()
         randomInt3 = ofRandom(0, 255);
     }
 
-    if (booleanTimer(2) && replay && not cancel) // Crucial part of the recorder feature (RECORDER)
+    if (booleanTimer(2) && replay && not cancel) // Crucial part of the recorder feature (RECORDER)//FIXME:
     {
         keyPressed(keystrokes[k]);
         k++;
@@ -58,7 +58,7 @@ void ofApp::update()
         }
         else // if the iterator (nextOne) is greater than the size of the playlist then do
         {
-            nextOne = 0; // set iterator back to 0
+            nextOne = -1; // set iterator back to 0
         }
         nextMusic = false; // always set the bool to false so that we are not changing songs wildly
     }
@@ -88,7 +88,7 @@ void ofApp::draw()
         }
     }
 
-    if (!playing)
+    if (!playing) 
     {
         ofSetColor(0, 0, 0);
         myFont2.drawString(pressP, ofGetWidth() / 2 - myFont2.stringWidth(pressP) / 2, ofGetHeight() / 2 - myFont2.stringHeight(pressP) / 2);
@@ -210,7 +210,9 @@ void ofApp::drawMode4(vector<float> amplitudes)
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key)
 {
-    switch (key)
+    int keyVal = key;
+    
+    switch (keyVal)
     {
     case 'p': // Play the visualizer
         if (playing)
@@ -224,7 +226,7 @@ void ofApp::keyPressed(int key)
             sound.play();
         }
         break;
-    case 't': // replay the recording
+    case 't': // replay the recording //FIXME:
         if (not cancel && not recording && keystrokes.size() > k)
         {
             replay = true;
@@ -242,26 +244,19 @@ void ofApp::keyPressed(int key)
     case '4':
         mode = '4';
     case '-': // lower volume
-        if (currentVol > 0.0)
+        if (currentVol > -0.1)
         {
             currentVol -= 0.1;
         }
         break;
     case '=': // volume up
-        if (currentVol < 1.0)
+        if (currentVol < 0.9)
         {
             currentVol += 0.1;
         }
         break;
-    case 'r': // record
-        if (recording)
-        {
-            recording = false;
-        }
-        else
-        {
-            recording = true;
-        }
+    case 'r': // record //FIXME:
+        recording = !recording;
         break;
     case 'h': // draw help
         if (helpButtons)
@@ -286,7 +281,7 @@ void ofApp::keyPressed(int key)
 
     if (recording)
     {
-        this->Recorder(key);
+        this->Recorder(key); //FIXME:
     }
 }
 //--------------------------------------------------------------
@@ -339,7 +334,7 @@ void ofApp::dragEvent(ofDragInfo dragInfo)
 {
 }
 
-void ofApp::Recorder(int key) // takes the recorded buttons inside a vector except r
+void ofApp::Recorder(int key) //buttons to vector except r //FIXME: 
 {
     if (key != 'r')
     {
