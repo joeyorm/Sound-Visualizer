@@ -9,10 +9,10 @@ using namespace std;
 class ofApp : public ofBaseApp
 {
 public:
-    void setup();
-    void update();
-    void draw();
-    void timer();
+	void setup();
+	void update();
+	void draw();
+	void timer();
 
 	void drawMode1(vector<float> amplitudes);
 	void drawMode2(vector<float> amplitudes);
@@ -39,16 +39,18 @@ public:
 	bool nextMusic = false;
 	bool ampStop = false;
 
+	float randomInt1;
+	float randomInt2;
+	float randomInt3;
+	int secondsPassed;
+	double currentVol;
+
 	int iter = 0;
 	int iter2 = 0;
 	int k = 0;
 	int nextOne = 0;
 	int keyVal;
-    int currentVol;
-    int randomInt1;
-    int randomInt2;
-    int randomInt3;
-	int secondsPassed;
+	
 	ofTrueTypeFont myFont1;
 	ofTrueTypeFont myFont2;
 	ofTrueTypeFont myFont3;
@@ -61,17 +63,20 @@ public:
 	ofBoxPrimitive newBox;
 	ofEasyCam cam;
 	
+
+	vector<string> playlist = {"beat.wav", "geesebeat.wav", "pigeon-coo.wav", "rock-song.wav"};
+
 	ofLight light;
 
-    vector<string> playlist = {"beat.wav", "geesebeat.wav", "pigeon-coo.wav", "rock-song.wav"};
+
 
 private:
-    ofSoundPlayer sound;
-    AudioVisualizer visualizer;
+	ofSoundPlayer sound;
+	AudioVisualizer visualizer;
 
-    bool recording = false;
-    bool playing = false;
-    char mode = '1';
-    vector<int> keystrokes;
-
+	bool recording = false;
+	bool playing = false;
+	char mode = '1';
+	vector<int> keystrokes;
+	
 };
