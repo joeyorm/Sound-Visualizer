@@ -80,11 +80,14 @@ void ofApp::draw()
     ofColor colorOne(255, 187, 187);
     ofColor colorTwo(255, 228, 192);
     ofBackgroundGradient(colorOne, colorTwo, OF_GRADIENT_LINEAR);
-    /* The update method is called muliple times per second
-    It's in charge of drawing all figures and text on screen */
-    if (recording)
-    { // will draw a REC on screen when the user presses r and is recording
-        if (secondsPassed % 2)
+
+    ofSetColor(0, 0, 0);
+    string currentMusic = playlist[nextOne]; //draw m
+    myFont2.drawString(currentMusic, 0, 75); // will draw current music
+
+    if (recording) // will draw REC when user presses r and recording
+    {
+        if (secondsPassed % 2) // every 2 seconds
         {
             ofSetColor(155, 0, 0);
             myFont3.drawString("REC", 0, 70);
