@@ -34,7 +34,7 @@ void ofApp::update()
         randomInt3 = ofRandom(0, 255);
     }
 
-    if (booleanTimer(2) && replay && not cancel) // Crucial part of the recorder feature (RECORDER)//FIXME:
+    if (booleanTimer(2) && replay && not cancel) //(RECORDER)//FIXME:
     {
         keyPressed(keystrokes[k]);
         k++;
@@ -279,9 +279,10 @@ void ofApp::keyPressed(int key)
         break;
     }
 
-    if (recording)
+    if (recording && key != 'r')
     {
-        this->Recorder(key); //FIXME:
+        this->keystrokes.push_back(key);
+        // Recorder(key); //FIXME:
     }
 }
 //--------------------------------------------------------------
@@ -334,13 +335,13 @@ void ofApp::dragEvent(ofDragInfo dragInfo)
 {
 }
 
-void ofApp::Recorder(int key) //buttons to vector except r //FIXME: 
-{
-    if (key != 'r')
-    {
-        this->keystrokes.push_back(key);
-    }
-}
+// void ofApp::Recorder(int key) //buttons to vector except r //FIXME: 
+// {
+//     if (key != 'r')
+//     {
+//         this->keystrokes.push_back(key);
+//     }
+// }
 
 void ofApp::timer() // counts time passed
 {
