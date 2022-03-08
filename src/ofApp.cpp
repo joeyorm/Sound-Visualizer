@@ -227,7 +227,7 @@ void ofApp::keyPressed(int key)
         if (replay)
         {
             cancel = !cancel;
-            replay = !replay;
+            replay = false;
             keystrokes.clear();
         }
         break;
