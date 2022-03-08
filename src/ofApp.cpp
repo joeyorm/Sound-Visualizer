@@ -6,15 +6,17 @@ using namespace std;
 //--------------------------------------------------------------
 void ofApp::setup()
 {
-    sound.loadSound(playlist[nextOne]); // Loads a sound file (in bin/data/)
-    sound.setLoop(true);                // Makes the song loop indefinitely
+    sound.loadSound("rock-song.wav"); // Loads a sound file (in bin/data/)
+    sound.setLoop(true);              // Makes the song loop indefinitely
     currentVol = 0.5;
-    sound.setVolume(currentVol);         // Sets the song volume
-    ofSetBackgroundColor(256, 256, 256); // Sets the Background Color
+    sound.setVolume(currentVol); // Sets the song volume
+    ofSetBackgroundColor(256, 256, 256);
     myFont1.load("Lato-Regular.ttf", 15);
     myFont2.load("Gravis.ttf", 30);
     myFont3.load("Lato-Regular.ttf", 25);
     pressP = "Press 'P' to play some music!";
+
+    // Sets the Background Color                    // sets the timer to 0
 }
 
 //--------------------------------------------------------------
@@ -22,18 +24,19 @@ void ofApp::update()
 {
     /* The update method is called muliple times per second
     It's in charge of updating variables and the logic of our app */
-    ofSoundUpdate();               // Updates all sound players
-    sound.setVolume(currentVol);   // Sets volume when user presses "-" or "="
+    ofSoundUpdate(); // Updates all sound players
+    sound.setVolume(currentVol);
     visualizer.updateAmplitudes(); // Updates Amplitudes for visualizer
-    timer();                       // counts seconds passed since start
+    timer();                       // Updates the iterator every second (nonstop)
 
     if (booleanTimer(3))
     {
         randomInt1 = ofRandom(0, 255);
         randomInt2 = ofRandom(0, 255);
         randomInt3 = ofRandom(0, 255);
+        //  ofSetColor(ofRandom(0, 135), ofRandom(0, 255), ofRandom(0, 255));
     }
-    if (booleanTimer(2) && replay && not cancel) // Crucial part of the recorder feature (RECORDER)
+    if (booleanTimer(2) && replay && not cancel)
     {
         keyPressed(keystrokes[k]);
         k++;
@@ -44,23 +47,6 @@ void ofApp::update()
             replay = false;
         }
     }
-
-    if (nextMusic) //(bool nextMusic) is changed to true every time n is pressed
-    {
-        nextOne++;
-        if (nextOne < playlist.size()) // if the iterator (nextOne) is less than the size of the playlist then do
-        {
-            sound.loadSound(playlist[nextOne]); // use the iterator (nextOne) to pick a song from the Vector
-            playing = true;                     // play the visualizer
-            sound.play();                       // start the sound
-            sound.setLoop(true);                // loop the sound
-        }
-        else // if the iterator (nextOne) is greater than the size of the playlist then do
-        {
-            nextOne = 0; // set iterator back to 0
-        }
-        nextMusic = false; // always set the bool to false so that we are not changing songs wildly
-    }
 }
 
 //--------------------------------------------------------------
@@ -69,20 +55,16 @@ void ofApp::draw()
     ofColor colorOne(255, 187, 187);
     ofColor colorTwo(255, 228, 192);
     ofBackgroundGradient(colorOne, colorTwo, OF_GRADIENT_LINEAR);
-
-    ofSetColor(0, 0, 0);
-    string currentMusic = playlist[nextOne];
-    myFont2.drawString(currentMusic, 0, 75); // will draw current music
-
-    if (recording) // will draw REC when user presses r and recording
-    {
-        if (secondsPassed % 2) // every 2 seconds
+    /* The update method is called muliple times per second
+    It's in charge of drawing all figures and text on screen */
+    if (recording)
+    { // will draw a REC on screen when the user presses r and is recording
+        if (secondsPassed % 2)
         {
-            ofSetColor(155, 0, 0); // red
-            myFont2.drawString("REC", 0, 125);
+            ofSetColor(155, 0, 0);
+            myFont3.drawString("REC", 0, 70);
         }
     }
-
     if (!playing)
     {
         ofSetColor(0, 0, 0);
@@ -95,18 +77,16 @@ void ofApp::draw()
     {
         drawMode1(amplitudes);
     }
-
     else if (mode == '2')
     {
         drawMode2(amplitudes);
     }
-
     else if (mode == '3')
     {
         drawMode3(amplitudes);
     }
-
-    if (helpButtons) //rectangle that contains info such as FPS, buttons etc
+    
+    if (helpButtons) // Here I created a rectangle that contains some info such as FPS, some buttons etc
     {
         ofSetColor(0, 0, 0);
         ofFill();
@@ -116,15 +96,16 @@ void ofApp::draw()
         myFont1.drawString("FPS: " + to_string(ofGetFrameNum() % 60), 300, 300);
         myFont1.drawString("Volume down: '-'", 300, 380);
         myFont1.drawString("Volume up: '='", 300, 420);
-        myFont1.drawString("Volume: " + to_string(currentVol), 500, 300);
+        // myFont1.drawString("Current volume: " + (currentVol);
         myFont1.drawString("X: " + to_string(ofGetMouseX()) + ", Y: " + to_string(ofGetMouseY()), 300, 460);
         myFont2.drawString("Help", 450, 265);
         ofSetColor(randomInt1, randomInt2, randomInt3);
     }
 }
+
 void ofApp::drawMode1(vector<float> amplitudes)
 {
-    ofFill();
+    ofFill(); // Drawn Shapes will be filled in with color
     ofSetColor(0, 0, 0);
     myFont1.drawString("Rectangle Height Visualizer", 0, 25);
 
@@ -139,6 +120,7 @@ void ofApp::drawMode1(vector<float> amplitudes)
         }
     }
 }
+
 void ofApp::drawMode2(vector<float> amplitudes)
 {
     ofSetColor(0, 0, 0);
@@ -192,6 +174,21 @@ void ofApp::keyPressed(int key)
         this->keystrokes.push_back(key);
     }
 
+    if (replay && key != 'c')
+    {
+        keyVal = keystrokes[k];
+    }
+
+    else
+    {
+        keyVal = key;
+    }
+
+    if (recording && key != 'r')
+    {
+        this->keystrokes.push_back(key);
+    }
+    
     switch (key)
     {
     case 'c': // cancel recording
@@ -212,24 +209,29 @@ void ofApp::keyPressed(int key)
             playing = !playing;
             sound.stop();
         }
+
         else
         {
             playing = !playing;
             sound.play();
         }
         break;
-    case 't': //replay the recording
+
+    case 't':
         if (not cancel && not recording && keystrokes.size() > k)
         {
             replay = true;
         }
         break;
+        
     case '1':
         mode = '1';
         break;
+
     case '2':
         mode = '2';
         break;
+
     case '3':
         mode = '3';
         break;
@@ -248,14 +250,17 @@ void ofApp::keyPressed(int key)
     case 'r': //record
         recording = !recording;
         break;
-    case 'h': //draw help
+        
+    case 'h':
         if (helpButtons)
         {
             helpButtons = false;
+            break;
         }
         else
         {
             helpButtons = true;
+            break;
         }
         break;
     case 'n': //toggle nextMusic
@@ -264,6 +269,7 @@ void ofApp::keyPressed(int key)
     }
 
 }
+
 //--------------------------------------------------------------
 void ofApp::keyReleased(int key)
 {
@@ -315,7 +321,7 @@ void ofApp::dragEvent(ofDragInfo dragInfo)
 }
 
 
-void ofApp::timer() //counts time passed
+void ofApp::timer()
 {
     if (ofGetFrameNum() % 60 == 0)
     {
@@ -323,7 +329,7 @@ void ofApp::timer() //counts time passed
     }
 }
 
-bool ofApp::booleanTimer(int intervalToReturnBool) //becomes true every n seconds for one frame 
+bool ofApp::booleanTimer(int intervalToReturnBool)
 {
     if (ofGetFrameNum() % (60 * intervalToReturnBool) == 0)
     {
@@ -334,3 +340,4 @@ bool ofApp::booleanTimer(int intervalToReturnBool) //becomes true every n second
         return false;
     }
 }
+
