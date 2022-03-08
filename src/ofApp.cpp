@@ -6,6 +6,7 @@ using namespace std;
 //--------------------------------------------------------------
 void ofApp::setup()
 {
+    
     sound.loadSound(playlist[nextOne]); // Loads a sound file (in bin/data/)
     sound.setLoop(true);                // Makes the song loop indefinitely
     currentVol = 0.5;
@@ -20,8 +21,7 @@ void ofApp::setup()
 //--------------------------------------------------------------
 void ofApp::update()
 {
-    /* The update method is called muliple times per second
-    It's in charge of updating variables and the logic of our app */
+    
     ofSoundUpdate();               // Updates all sound players
     sound.setVolume(currentVol);   // Sets volume when user presses "-" or "="
     visualizer.updateAmplitudes(); // Updates Amplitudes for visualizer
@@ -33,6 +33,7 @@ void ofApp::update()
         randomInt2 = ofRandom(0, 255);
         randomInt3 = ofRandom(0, 255);
     }
+
     if (booleanTimer(2) && replay && not cancel) // Crucial part of the recorder feature (RECORDER)
     {
         keyPressed(keystrokes[k]);
@@ -60,6 +61,10 @@ void ofApp::update()
             nextOne = 0; // set iterator back to 0
         }
         nextMusic = false; // always set the bool to false so that we are not changing songs wildly
+    }
+    for (int side = 0; side < 6; side++)
+    {
+        newBox.setSideColor(side, ofColor::fromHsb(137, 15, 13));
     }
 }
 
@@ -105,8 +110,12 @@ void ofApp::draw()
     {
         drawMode3(amplitudes);
     }
+    else if (mode == '4')
+    {
+        drawMode4(amplitudes);
+    }
 
-    if (helpButtons) //rectangle that contains info such as FPS, buttons etc
+    if (helpButtons) // rectangle that contains info such as FPS, buttons etc
     {
         ofSetColor(0, 0, 0);
         ofFill();
@@ -174,13 +183,33 @@ void ofApp::drawMode3(vector<float> amplitudes)
     }
 }
 
+void ofApp::drawMode4(vector<float> amplitudes)
+{
+    ofEnableDepthTest();
+    newBox.setPosition(0, 0, 0);
+    newBox.set(100, 10 * amplitudes[0] / 2, 100);
+
+    if (booleanTimer(3))
+    {
+        for (int side = 0; side < 6; side++)
+        {
+            newBox.setSideColor(side, ofColor::fromHsb(ofRandom(255), 255, 255));
+        }
+    }
+
+    cam.begin();
+    newBox.draw();
+    cam.end();
+    ofDisableDepthTest();
+}
+
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key)
 {
 
     switch (key)
     {
-    case 'p': //Play the visualizer
+    case 'p': // Play the visualizer
         if (playing)
         {
             playing = !playing;
@@ -192,7 +221,7 @@ void ofApp::keyPressed(int key)
             sound.play();
         }
         break;
-    case 't': //replay the recording
+    case 't': // replay the recording
         if (not cancel && not recording && keystrokes.size() > k)
         {
             replay = true;
@@ -207,19 +236,21 @@ void ofApp::keyPressed(int key)
     case '3':
         mode = '3';
         break;
-    case '-': //lower volume
+    case '4':
+        mode = '4';
+    case '-': // lower volume
         if (currentVol > 0.0)
         {
             currentVol -= 0.1;
         }
         break;
-    case '=': //volume up
+    case '=': // volume up
         if (currentVol < 1.0)
         {
             currentVol += 0.1;
         }
         break;
-    case 'r': //record
+    case 'r': // record
         if (recording)
         {
             recording = false;
@@ -229,7 +260,7 @@ void ofApp::keyPressed(int key)
             recording = true;
         }
         break;
-    case 'h': //draw help
+    case 'h': // draw help
         if (helpButtons)
         {
             helpButtons = false;
@@ -239,13 +270,13 @@ void ofApp::keyPressed(int key)
             helpButtons = true;
         }
         break;
-    case 'c': //cancel recording
+    case 'c': // cancel recording
         if (replay)
         {
             cancel = !cancel;
         }
         break;
-    case 'n': //toggle nextMusic
+    case 'n': // toggle nextMusic
         nextMusic = true;
         break;
     }
@@ -305,7 +336,7 @@ void ofApp::dragEvent(ofDragInfo dragInfo)
 {
 }
 
-void ofApp::Recorder(int key) //takes the recorded buttons inside a vector except r
+void ofApp::Recorder(int key) // takes the recorded buttons inside a vector except r
 {
     if (key != 'r')
     {
@@ -313,7 +344,7 @@ void ofApp::Recorder(int key) //takes the recorded buttons inside a vector excep
     }
 }
 
-void ofApp::timer() //counts time passed
+void ofApp::timer() // counts time passed
 {
     if (ofGetFrameNum() % 60 == 0)
     {
@@ -321,7 +352,7 @@ void ofApp::timer() //counts time passed
     }
 }
 
-bool ofApp::booleanTimer(int intervalToReturnBool) //becomes true every n seconds for one frame 
+bool ofApp::booleanTimer(int intervalToReturnBool) // becomes true every n seconds for one frame
 {
     if (ofGetFrameNum() % (60 * intervalToReturnBool) == 0)
     {

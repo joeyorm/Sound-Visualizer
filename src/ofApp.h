@@ -17,6 +17,7 @@ public:
 	void drawMode1(vector<float> amplitudes);
 	void drawMode2(vector<float> amplitudes);
 	void drawMode3(vector<float> amplitudes);
+	void drawMode4(vector<float> amplitudes);
 	void keyPressed(int key);
 	void keyReleased(int key);
 	void mouseMoved(int x, int y);
@@ -57,6 +58,8 @@ public:
 	string keyStrokeRecord;
 	string FPS;
 
+	ofBoxPrimitive newBox;
+	ofEasyCam cam;
 	
 
 	vector<string> playlist = {"beat.wav", "geesebeat.wav", "pigeon-coo.wav", "rock-song.wav"};
