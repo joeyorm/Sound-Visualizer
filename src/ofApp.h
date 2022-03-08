@@ -39,12 +39,6 @@ public:
 	bool nextMusic = false;
 	bool ampStop = false;
 
-    bool booleanTimer(int intervalToReturnBool);
-    bool helpButtons = false;
-    bool cancel = false;
-    bool replay = false;
-    bool nextMusic = false;
-
 	int iter = 0;
 	int iter2 = 0;
 	int k = 0;
@@ -67,11 +61,6 @@ public:
 	ofBoxPrimitive newBox;
 	ofEasyCam cam;
 	
-
-    ofTrueTypeFont myFont1;
-    ofTrueTypeFont myFont2;
-    ofTrueTypeFont myFont3;
-
 	ofLight light;
 
     vector<string> playlist = {"beat.wav", "geesebeat.wav", "pigeon-coo.wav", "rock-song.wav"};
