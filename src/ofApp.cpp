@@ -174,20 +174,6 @@ void ofApp::keyPressed(int key)
         this->keystrokes.push_back(key);
     }
 
-    if (replay && key != 'c')
-    {
-        keyVal = keystrokes[k];
-    }
-
-    else
-    {
-        keyVal = key;
-    }
-
-    if (recording && key != 'r')
-    {
-        this->keystrokes.push_back(key);
-    }
     
     switch (key)
     {
