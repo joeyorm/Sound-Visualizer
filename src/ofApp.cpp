@@ -6,11 +6,10 @@ using namespace std;
 //--------------------------------------------------------------
 void ofApp::setup()
 {
-
     sound.loadSound(playlist[nextOne]); // Loads a sound file (in bin/data/)
     sound.setLoop(true);                // Makes the song loop indefinitely
     currentVol = 0.5;
-    sound.setVolume(currentVol); // Sets the song volume
+    sound.setVolume(currentVol*20); // Sets the song volume
     ofSetBackgroundColor(256, 256, 256);
     myFont1.load("Lato-Regular.ttf", 15);
     myFont2.load("Gravis.ttf", 30);
