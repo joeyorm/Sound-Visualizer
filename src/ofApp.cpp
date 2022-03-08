@@ -9,7 +9,7 @@ void ofApp::setup()
     sound.loadSound("rock-song.wav"); // Loads a sound file (in bin/data/)
     sound.setLoop(true);              // Makes the song loop indefinitely
     currentVol = 0.5;
-    sound.setVolume(currentVol); // Sets the song volume
+    sound.setVolume(currentVol*20); // Sets the song volume
     ofSetBackgroundColor(256, 256, 256);
     myFont1.load("Lato-Regular.ttf", 15);
     myFont2.load("Gravis.ttf", 30);
@@ -22,12 +22,15 @@ void ofApp::setup()
 //--------------------------------------------------------------
 void ofApp::update()
 {
-    /* The update method is called muliple times per second
-    It's in charge of updating variables and the logic of our app */
-    ofSoundUpdate(); // Updates all sound players
+    ofSetBackgroundColor(256, 256, 256); // Sets the Background Color
+    ofSoundUpdate();                     // Updates all sound players
     sound.setVolume(currentVol);
-    visualizer.updateAmplitudes(); // Updates Amplitudes for visualizer
-    timer();                       // Updates the iterator every second (nonstop)
+    timer(); // counts seconds passed since start
+
+    if (not ampStop)
+    {                                  // Sets volume when user presses "-" or "="
+        visualizer.updateAmplitudes(); // Updates Amplitudes for visualizer
+    }
 
     if (booleanTimer(3))
     {
@@ -36,7 +39,8 @@ void ofApp::update()
         randomInt3 = ofRandom(0, 255);
         //  ofSetColor(ofRandom(0, 135), ofRandom(0, 255), ofRandom(0, 255));
     }
-    if (booleanTimer(2) && replay && not cancel)
+
+    if (booleanTimer(2) && replay && not cancel) //(RECORDER)
     {
         keyPressed(keystrokes[k]);
         k++;
@@ -46,6 +50,27 @@ void ofApp::update()
             keystrokes.clear();
             replay = false;
         }
+    }
+
+    if (nextMusic) //(bool nextMusic) is changed to true every time n is pressed
+    {
+        nextOne++;
+        if (nextOne < playlist.size()) // if the iterator (nextOne) is less than the size of the playlist then do
+        {
+            sound.loadSound(playlist[nextOne]); // use the iterator (nextOne) to pick a song from the Vector
+            playing = true;                     // play the visualizer
+            sound.play();                       // start the sound
+            sound.setLoop(true);                // loop the sound
+        }
+        else // if the iterator (nextOne) is greater than the size of the playlist then do
+        {
+            nextOne = -1; // set iterator back to 0
+        }
+        nextMusic = false; // always set the bool to false so that we are not changing songs wildly
+    }
+    for (int side = 0; side < 6; side++)
+    {
+        newBox.setSideColor(side, ofColor::fromHsb(137, 15, 13));
     }
 }
 
@@ -85,8 +110,12 @@ void ofApp::draw()
     {
         drawMode3(amplitudes);
     }
-    
-    if (helpButtons) // Here I created a rectangle that contains some info such as FPS, some buttons etc
+    else if (mode == '4')
+    {
+        drawMode4(amplitudes);
+    }
+
+    if (helpButtons) // rectangle that contains info such as FPS, buttons etc
     {
         ofSetColor(0, 0, 0);
         ofFill();
@@ -156,9 +185,38 @@ void ofApp::drawMode3(vector<float> amplitudes)
     }
 }
 
+void ofApp::drawMode4(vector<float> amplitudes)
+{
+    // ofEnableDepthTest();
+    // ofSetBackgroundColor(0, 0, 0);
+    // newBox.setPosition(0, 0, 0);
+    // newBox.set(100, abs(2 * amplitudes[0] / 4) + 50, 100);
+    // light.setPosition(0, 100, -30);
+    // light.enable();
+
+    // if (booleanTimer(3))
+    // {
+    //     for (int side = 0; side < 6; side++)
+    //     {
+    //         newBox.setSideColor(side, ofColor::fromHsb(ofRandom(255), 255, 255));
+    //     }
+    // }
+
+    // cam.begin();
+    // newBox.draw();
+    // cam.end();
+    // light.disable();
+    // ofDisableDepthTest();
+}
+
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key)
 {
+    if (replay && key != 'c')
+    {
+        keyVal = keystrokes[k];
+    }
+
     if (replay && key != 'c')
     {
         keyVal = keystrokes[k];
@@ -174,7 +232,6 @@ void ofApp::keyPressed(int key)
         this->keystrokes.push_back(key);
     }
 
-    
     switch (key)
     {
     case 'c': // cancel recording
@@ -186,10 +243,9 @@ void ofApp::keyPressed(int key)
         }
         break;
     }
-
     switch (keyVal)
     {
-    case 'p': //Play the visualizer
+    case 'p': // Play the visualizer
         if (playing)
         {
             playing = !playing;
@@ -202,8 +258,7 @@ void ofApp::keyPressed(int key)
             sound.play();
         }
         break;
-
-    case 't':
+    case 't': // replay the recording //FIXME:
         if (not cancel && not recording && keystrokes.size() > k)
         {
             replay = true;
@@ -221,23 +276,24 @@ void ofApp::keyPressed(int key)
     case '3':
         mode = '3';
         break;
-    case '-': //lower volume
-        if (currentVol > 0.1)
+    case '4':
+        mode = '4';
+    case '-': // lower volume
+        if (currentVol > -0.1)
         {
             currentVol -= 0.1;
         }
         break;
-    case '=': //volume up
+    case '=': // volume up
         if (currentVol < 0.9)
         {
             currentVol += 0.1;
         }
         break;
-    case 'r': //record
+    case 'r': // record //FIXME:
         recording = !recording;
         break;
-        
-    case 'h':
+    case 'h': // draw help
         if (helpButtons)
         {
             helpButtons = false;
@@ -246,14 +302,16 @@ void ofApp::keyPressed(int key)
         else
         {
             helpButtons = true;
-            break;
         }
         break;
-    case 'n': //toggle nextMusic
+
+    case 'n': // toggle nextMusic
         nextMusic = true;
         break;
+    case 'a': // toggle Amplitudes stop
+        ampStop = !ampStop;
+        break;
     }
-
 }
 
 //--------------------------------------------------------------
@@ -306,8 +364,7 @@ void ofApp::dragEvent(ofDragInfo dragInfo)
 {
 }
 
-
-void ofApp::timer()
+void ofApp::timer() // counts time passed
 {
     if (ofGetFrameNum() % 60 == 0)
     {
@@ -315,7 +372,7 @@ void ofApp::timer()
     }
 }
 
-bool ofApp::booleanTimer(int intervalToReturnBool)
+bool ofApp::booleanTimer(int intervalToReturnBool) // becomes true every n seconds for one frame
 {
     if (ofGetFrameNum() % (60 * intervalToReturnBool) == 0)
     {
