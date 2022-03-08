@@ -6,11 +6,11 @@ using namespace std;
 //--------------------------------------------------------------
 void ofApp::setup()
 {
-    
+
     sound.loadSound(playlist[nextOne]); // Loads a sound file (in bin/data/)
     sound.setLoop(true);                // Makes the song loop indefinitely
     currentVol = 0.5;
-    sound.setVolume(currentVol);         // Sets the song volume
+    sound.setVolume(currentVol); // Sets the song volume
     ofSetBackgroundColor(256, 256, 256);
     myFont1.load("Lato-Regular.ttf", 15);
     myFont2.load("Gravis.ttf", 30);
@@ -22,10 +22,10 @@ void ofApp::setup()
 void ofApp::update()
 {
     ofSetBackgroundColor(256, 256, 256); // Sets the Background Color
-    ofSoundUpdate();               // Updates all sound players
-    sound.setVolume(currentVol);   // Sets volume when user presses "-" or "="
-    visualizer.updateAmplitudes(); // Updates Amplitudes for visualizer
-    timer();                       // counts seconds passed since start
+    ofSoundUpdate();                     // Updates all sound players
+    sound.setVolume(currentVol);         // Sets volume when user presses "-" or "="
+    visualizer.updateAmplitudes();       // Updates Amplitudes for visualizer
+    timer();                             // counts seconds passed since start
 
     if (booleanTimer(3))
     {
@@ -88,7 +88,7 @@ void ofApp::draw()
         }
     }
 
-    if (!playing) 
+    if (!playing)
     {
         ofSetColor(0, 0, 0);
         myFont2.drawString(pressP, ofGetWidth() / 2 - myFont2.stringWidth(pressP) / 2, ofGetHeight() / 2 - myFont2.stringHeight(pressP) / 2);
@@ -186,10 +186,10 @@ void ofApp::drawMode3(vector<float> amplitudes)
 void ofApp::drawMode4(vector<float> amplitudes)
 {
     ofEnableDepthTest();
-    ofSetBackgroundColor(0,0,0);
+    ofSetBackgroundColor(0, 0, 0);
     newBox.setPosition(0, 0, 0);
     newBox.set(100, abs(2 * amplitudes[0] / 4) + 50, 100);
-    light.setPosition(0,100,-30);
+    light.setPosition(0, 100, -30);
     light.enable();
 
     if (booleanTimer(3))
@@ -210,8 +210,28 @@ void ofApp::drawMode4(vector<float> amplitudes)
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key)
 {
-    int keyVal = key;
     
+    if (replay && key != 'c')
+    {
+        keyVal = keystrokes[k];
+    }
+
+    else
+    {
+        keyVal = key;
+    }
+
+    switch (key)
+    {
+    case 'c': // cancel recording
+        if (replay)
+        {
+            cancel = !cancel;
+            replay = !replay;
+            keystrokes.clear();
+        }
+        break;
+    }
     switch (keyVal)
     {
     case 'p': // Play the visualizer
@@ -268,12 +288,7 @@ void ofApp::keyPressed(int key)
             helpButtons = true;
         }
         break;
-    case 'c': // cancel recording
-        if (replay)
-        {
-            cancel = !cancel;
-        }
-        break;
+
     case 'n': // toggle nextMusic
         nextMusic = true;
         break;
@@ -282,7 +297,6 @@ void ofApp::keyPressed(int key)
     if (recording && key != 'r')
     {
         this->keystrokes.push_back(key);
-        // Recorder(key); //FIXME:
     }
 }
 //--------------------------------------------------------------
@@ -334,14 +348,6 @@ void ofApp::gotMessage(ofMessage msg)
 void ofApp::dragEvent(ofDragInfo dragInfo)
 {
 }
-
-// void ofApp::Recorder(int key) //buttons to vector except r //FIXME: 
-// {
-//     if (key != 'r')
-//     {
-//         this->keystrokes.push_back(key);
-//     }
-// }
 
 void ofApp::timer() // counts time passed
 {

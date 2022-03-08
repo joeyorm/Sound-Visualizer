@@ -29,7 +29,7 @@ public:
 	void windowResized(int w, int h);
 	void dragEvent(ofDragInfo dragInfo);
 	void gotMessage(ofMessage msg);
-	void Recorder(int key);
+	
 
 
 	bool booleanTimer(int intervalToReturnBool);
@@ -48,6 +48,7 @@ public:
 	int iter2 = 0;
 	int k = 0;
 	int nextOne = 0;
+	int keyVal;
 	
 	ofTrueTypeFont myFont1;
 	ofTrueTypeFont myFont2;
