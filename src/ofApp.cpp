@@ -6,8 +6,8 @@ using namespace std;
 //--------------------------------------------------------------
 void ofApp::setup()
 {
-    sound.loadSound("rock-song.wav"); // Loads a sound file (in bin/data/)
-    sound.setLoop(true);              // Makes the song loop indefinitely
+    sound.loadSound("beat.wav"); // Loads a sound file (in bin/data/)
+    sound.setLoop(true);                // Makes the song loop indefinitely
     currentVol = 0.5;
     sound.setVolume(currentVol*20); // Sets the song volume
     ofSetBackgroundColor(256, 256, 256);
@@ -64,7 +64,7 @@ void ofApp::update()
         }
         else // if the iterator (nextOne) is greater than the size of the playlist then do
         {
-            nextOne = -1; // set iterator back to 0
+            nextOne = 0; // set iterator back to 0
         }
         nextMusic = false; // always set the bool to false so that we are not changing songs wildly
     }
@@ -279,7 +279,7 @@ void ofApp::keyPressed(int key)
     case '4':
         mode = '4';
     case '-': // lower volume
-        if (currentVol > -0.1)
+        if (currentVol > 0.1)
         {
             currentVol -= 0.1;
         }
