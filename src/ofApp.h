@@ -50,7 +50,11 @@ public:
 	int k = 0;
 	int nextOne = 0;
 	int keyVal;
-	
+    int currentVol;
+    int randomInt1;
+    int randomInt2;
+    int randomInt3;
+	int secondsPassed;
 	ofTrueTypeFont myFont1;
 	ofTrueTypeFont myFont2;
 	ofTrueTypeFont myFont3;
