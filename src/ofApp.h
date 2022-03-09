@@ -31,17 +31,18 @@ public:
 	void dragEvent(ofDragInfo dragInfo);
 	void gotMessage(ofMessage msg);
 
-	bool booleanTimer(int intervalToReturnBool);
+	// bool booleanTimer(int intervalToReturnBool);
 	bool helpButtons = false;
 	bool cancel = false;
 	bool replay = false;
 	bool nextMusic = false;
 	bool ampStop = false;
+	bool startFinish = false;
 
 	float randomInt1;
 	float randomInt2;
 	float randomInt3;
-	int secondsPassed;
+	int secondsPassed = 0;
 	double currentVol;
 
 	int iter = 0;
@@ -50,10 +51,12 @@ public:
 	int nextOne = 0;
 	int keyVal;
 	int visualizerMultiplier = 1;
+	float time = 255;
 
 	ofTrueTypeFont myFont1;
 	ofTrueTypeFont myFont2;
 	ofTrueTypeFont myFont3;
+	ofTrueTypeFont myFont4;
 
 	string currentMusic;
 	string pressP;
@@ -68,9 +71,36 @@ public:
 	ofLight light;
 
 	Screens menu;
+	Screens welcomeScreen;
 	Button playSong;
 
 	bool mousepressed = false;
+
+	ofImage imageBg;
+	ofImage pauseButton;
+	ofImage playButton;
+
+
+bool booleanTimer(int intervalToReturnBool) // becomes true every n seconds for one frame
+{
+    if (ofGetFrameNum() % (60 * intervalToReturnBool) == 0)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+bool booleanTimer(int intervalToReturnBool, int secSpeed){
+    if (ofGetFrameNum() % (secSpeed * intervalToReturnBool)){
+        return true;
+    }
+    else{
+        return false;
+    }
+}
 
 private:
 	ofSoundPlayer sound;

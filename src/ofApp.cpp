@@ -6,28 +6,44 @@ using namespace std;
 //--------------------------------------------------------------
 void ofApp::setup()
 {
-    sound.loadSound(playlist[nextOne]); // Loads a sound file (in bin/data/)
-    sound.setLoop(true);                // Makes the song loop indefinitely
-    currentVol = 0.5;
-    sound.setVolume(currentVol * 100); // Sets the song volume
-    ofSetBackgroundColor(256, 256, 256);
-    myFont1.load("texreg.ttf", 15);
-    myFont2.load("textbold.ttf", 30);
-    myFont3.load("textbold.ttf", 15);
+    sound.loadSound(playlist[0]);        // Loads a sound file (in bin/data/)
+    sound.setLoop(true);                 // Makes the song loop indefinitely
 
-    pressP = "PRESS 'P' TO PLAY SOME MUSIC!";
+    currentVol = 0.5;                    // The current volume
+    sound.setVolume(currentVol * 100);   // Sets the song volume
+
+    ofSetBackgroundColor(256, 256, 256);
+    myFont1.load("texreg.ttf", 15);      // Loads the text fonts
+    myFont2.load("textbold.ttf", 30);    // Loads the text fonts
+    myFont3.load("textbold.ttf", 15);    // Loads the text fonts
+    myFont4.load("textbold.ttf", 100);   // Loads the text fonts
+
+    imageBg.load("KeepitSimple.png");    // Loads the images
+    pauseButton.load("pauseButton.png"); // Loads the images
+    playButton.load("playButtton.png");  // Loads the images
 }
 
 //--------------------------------------------------------------
 void ofApp::update()
 {
-    ofSetBackgroundColor(256, 256, 256); // Sets the Background Color
-    ofSoundUpdate();                     // Updates all sound players
-    sound.setVolume(currentVol);
-    timer(); // counts seconds passed since start
+    ofSoundUpdate();             // Updates all sound players
+    sound.setVolume(currentVol); // updates the volume
+    playSong.buttonPress();
 
-    if (not ampStop)
-    {                                  // Sets volume when user presses "-" or "="
+    if (booleanTimer(20, 60))    //20 is the seconds that it has to wait, 60 is the speed of the second (100%)
+    { 
+        if (booleanTimer(4))     //wait for 4 seconds and then go ahead and update the variable time, so that it can start fading
+        {
+            startFinish = true;
+        }
+        if (time > 0 && startFinish)
+        {
+            time -= 1;
+        }
+    }
+
+    if (not ampStop)                   //stops the visualizer if a is pressed causing the bool to be false, 
+    {                
         visualizer.updateAmplitudes(); // Updates Amplitudes for visualizer
     }
 
@@ -38,7 +54,7 @@ void ofApp::update()
         randomInt3 = ofRandom(0, 255);
     }
 
-    if (booleanTimer(2) && replay && not cancel) //(RECORDER)
+    if (booleanTimer(2) && replay && not cancel) //Allows replay
     {
         keyPressed(keystrokes[k]);
         k++;
@@ -50,17 +66,19 @@ void ofApp::update()
         }
     }
 
-    if (playSong.getPressedEvent()){
-            nextMusic = false;
-            sound.loadSound(playlist[0]); // use the iterator (nextOne) to pick a song from the Vector                     // play the visualizer
-            sound.play();                       // start the sound
-            sound.setLoop(true); 
+    if (playSong.getPressedEvent())
+    {
+        nextMusic = false;
+        nextOne = 0;
+        sound.loadSound(playlist[nextOne]); // use the iterator (nextOne) to pick a song from the Vector                     // play the visualizer
+        sound.play();                       // start the sound
+        sound.setLoop(true);
     }
 
-    if (nextMusic) //(bool nextMusic) is changed to true every time n is pressed
+    if (nextMusic)                          // FIXME: //(bool nextMusic) is changed to true every time n is pressed
     {
-        nextOne++;
-        if (nextOne < playlist.size()) // if the iterator (nextOne) is less than the size of the playlist then do
+        nextOne++;                          // FIXME:
+        if (nextOne < playlist.size() - 1)  // if the iterator (nextOne) is less than the size of the playlist then do
         {
             sound.loadSound(playlist[nextOne]); // use the iterator (nextOne) to pick a song from the Vector
             playing = true;                     // play the visualizer
@@ -69,8 +87,13 @@ void ofApp::update()
         }
         else // if the iterator (nextOne) is greater than the size of the playlist then do
         {
-            nextOne = 0; // set iterator back to 0
+            nextOne = 0; // set iterator back to 0//FIXME:
+            sound.loadSound(playlist[nextOne]); // use the iterator (nextOne) to pick a song from the Vector
+            playing = true;                     // play the visualizer
+            sound.play();                       // start the sound
+            sound.setLoop(true);
         }
+
         nextMusic = false; // always set the bool to false so that we are not changing songs wildly
     }
 }
@@ -79,11 +102,30 @@ void ofApp::update()
 void ofApp::draw()
 {
 
-    ofColor colorOne(255, 187, 187);
-    ofColor colorTwo(255, 228, 192);
-    ofBackgroundGradient(colorOne, colorTwo, OF_GRADIENT_LINEAR);
+    ofSetColor(247, 247, 247);
+    imageBg.draw(ofGetWidth() / 2 - imageBg.getWidth() / 2, ofGetHeight() / 2 - imageBg.getHeight() / 2);
 
-    ofSetColor(0, 0, 0);
+    if (!playing)
+    {
+        ofEnableAlphaBlending();
+        ofSetColor(247, 247, 247);
+        pauseButton.draw(ofGetWidth() / 2 - floor(pauseButton.getWidth() / 2), ofGetHeight() / 2 - floor(pauseButton.getHeight() / 2));
+        pauseButton.resize(100, 100);
+        // myFont2.drawString(pressP, ofGetWidth() / 2 - myFont2.stringWidth(pressP) / 2, ofGetHeight() / 2 - myFont2.stringHeight(pressP) / 2);
+        ofDisableAlphaBlending();
+    }
+
+    if (playing)
+    {
+
+        ofEnableAlphaBlending();
+        ofSetColor(247, 247, 247);
+        playButton.draw(ofGetWidth() / 2 - floor(playButton.getWidth() / 2), ofGetHeight() / 2 - floor(playButton.getHeight() / 2));
+        playButton.resize(100, 100);
+        ofDisableAlphaBlending();
+    }
+
+    ofSetColor(0, 0, 0);                                                          // FIXME:
     string currentMusic = playlist[nextOne];                                      // draw m
     myFont3.drawString(currentMusic.erase(currentMusic.length() - 4, -4), 0, 75); // will draw current music
 
@@ -94,13 +136,6 @@ void ofApp::draw()
             ofSetColor(155, 0, 0); // red
             myFont3.drawString("REC", 0, 125);
         }
-    }
-
-    if (!playing)
-    {
-        ofSetColor(0, 0, 0);
-        myFont2.drawString(pressP, ofGetWidth() / 2 - myFont2.stringWidth(pressP) / 2, ofGetHeight() / 2 - myFont2.stringHeight(pressP) / 2);
-        ofSetColor(randomInt1, randomInt2, randomInt3);
     }
 
     vector<float> amplitudes = visualizer.getAmplitudes();
@@ -140,9 +175,19 @@ void ofApp::draw()
     }
 
     menu.background(0, 0, 0, 200);
-    menu.screenDisplay(); //FIXME:
+    menu.screenDisplay(); // FIXME: //Animation?? y = ofNoise(ofGetElapsedTime())
     playSong.buttonDisplay();
 
+    ofEnableAlphaBlending();
+    welcomeScreen.toggle();
+    welcomeScreen.background(0, 0, 0, time);
+    welcomeScreen.screenDisplay();
+
+    ofSetColor(248, 248, 248, time);
+    myFont4.drawString("WELCOME", ofGetWidth() / 2 - myFont4.stringWidth("WELCOME") / 2, ofGetHeight() / 2 - myFont4.stringHeight("WELCOME") / 2);
+    welcomeScreen.toggle();
+
+    menu.screenDisplay();
     ofDisableAlphaBlending();
 }
 void ofApp::drawMode1(vector<float> amplitudes)
@@ -153,7 +198,7 @@ void ofApp::drawMode1(vector<float> amplitudes)
 
     for (int i = 0; i < ofGetWidth(); i += ofGetWidth() / 64)
     {
-        int multiplier;          
+        int multiplier;
         // if (32 < iter){ //this here allows us to choose the range we want to multiply
         //     multiplier = amplitudes[iter] * 300 * visualizerMultiplier; // this here multiplies the visualizer
         // }
@@ -347,7 +392,6 @@ void ofApp::mouseDragged(int x, int y, int button)
 //--------------------------------------------------------------
 void ofApp::mousePressed(int x, int y, int button)
 {
-    playSong.buttonPress(button);
 }
 
 //--------------------------------------------------------------
@@ -378,24 +422,4 @@ void ofApp::gotMessage(ofMessage msg)
 //--------------------------------------------------------------
 void ofApp::dragEvent(ofDragInfo dragInfo)
 {
-}
-
-void ofApp::timer() // counts time passed
-{
-    if (ofGetFrameNum() % 60 == 0)
-    {
-        secondsPassed++;
-    }
-}
-
-bool ofApp::booleanTimer(int intervalToReturnBool) // becomes true every n seconds for one frame
-{
-    if (ofGetFrameNum() % (60 * intervalToReturnBool) == 0)
-    {
-        return true;
-    }
-    else
-    {
-        return false;
-    }
 }

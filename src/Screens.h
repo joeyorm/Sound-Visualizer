@@ -169,16 +169,14 @@ public:
 		}
 	}
 
-	bool buttonPress(int button) //FIXME: //the idea is to make this class detect mouse buttons when pressed.
+	void buttonPress() //FIXME: //the idea is to make this class detect mouse buttons when pressed.
 	{
-		if (toggler && ofGetMouseX() > this->xPosB && ofGetMouseY() > this->yPosB && ofGetMouseX() < this->width && ofGetMouseY() < this->height && button == '0')
+		if (toggler && ofGetMouseX() > getXpos() && ofGetMouseY() > getYpos() &&  ofGetMouseX() < getWidth() && ofGetMouseY() < ofGetHeight() && ofGetMousePressed(0))
 		{
 			pressedButton = true;
-			return pressedButton;
 		}
 		else{ 
 			pressedButton = false;
-			return pressedButton;
 		}
 	}
 	void buttonToggle() { pressedButton = !pressedButton; }
