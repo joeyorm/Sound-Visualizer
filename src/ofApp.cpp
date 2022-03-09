@@ -9,7 +9,7 @@ void ofApp::setup()
     sound.loadSound(playlist[nextOne]); // Loads a sound file (in bin/data/)
     sound.setLoop(true);                // Makes the song loop indefinitely
     currentVol = 0.5;
-    sound.setVolume(currentVol*100); // Sets the song volume
+    sound.setVolume(currentVol * 100); // Sets the song volume
     ofSetBackgroundColor(256, 256, 256);
     myFont1.load("texreg.ttf", 15);
     myFont2.load("textbold.ttf", 30);
@@ -31,7 +31,7 @@ void ofApp::update()
         visualizer.updateAmplitudes(); // Updates Amplitudes for visualizer
     }
 
-    if (booleanTimer(3))
+    if (booleanTimer(4))
     {
         randomInt1 = ofRandom(0, 255);
         randomInt2 = ofRandom(0, 255);
@@ -71,15 +71,14 @@ void ofApp::update()
 //--------------------------------------------------------------
 void ofApp::draw()
 {
-    
 
     ofColor colorOne(255, 187, 187);
     ofColor colorTwo(255, 228, 192);
     ofBackgroundGradient(colorOne, colorTwo, OF_GRADIENT_LINEAR);
 
     ofSetColor(0, 0, 0);
-    string currentMusic = playlist[nextOne]; //draw m
-    myFont3.drawString(currentMusic.erase(currentMusic.length()-4,-4),0, 75); // will draw current music
+    string currentMusic = playlist[nextOne];                                      // draw m
+    myFont3.drawString(currentMusic.erase(currentMusic.length() - 4, -4), 0, 75); // will draw current music
 
     if (recording) // will draw REC when user presses r and recording
     {
@@ -127,19 +126,16 @@ void ofApp::draw()
         myFont1.drawString("FPS: " + to_string(ofGetFrameNum() % 60), 300, 300);
         myFont1.drawString("Volume down: '-'", 300, 380);
         myFont1.drawString("Volume up: '='", 300, 420);
-        myFont1.drawString("Volume: " + to_string(currentVol).erase(to_string(currentVol).length()-4,-5), 500, 300);
+        myFont1.drawString("Volume: " + to_string(currentVol).erase(to_string(currentVol).length() - 5, -5), 500, 300);
         myFont1.drawString("X: " + to_string(ofGetMouseX()) + ", Y: " + to_string(ofGetMouseY()), 300, 460);
-        myFont2.drawString("HELP", ofGetWidth()/2 - myFont2.stringWidth("HELP"), 265);
+        myFont2.drawString("HELP", ofGetWidth() / 2 - myFont2.stringWidth("HELP"), 265);
         ofSetColor(randomInt1, randomInt2, randomInt3);
     }
 
-
-    menu.background(0,0,0,200);
+    menu.background(0, 0, 0, 200);
     menu.screenDisplay();
-    
 
     ofDisableAlphaBlending();
-    
 }
 void ofApp::drawMode1(vector<float> amplitudes)
 {
@@ -147,11 +143,19 @@ void ofApp::drawMode1(vector<float> amplitudes)
     ofSetColor(0, 0, 0);
     myFont3.drawString("Rectangle Height Visualizer", 0, 25);
 
-   
     for (int i = 0; i < ofGetWidth(); i += ofGetWidth() / 64)
     {
+        int multiplier;          
+        // if (32 < iter){ //this here allows us to choose the range we want to multiply
+        //     multiplier = amplitudes[iter] * 300 * visualizerMultiplier; // this here multiplies the visualizer
+        // }
+        // else{
+        //     multiplier = amplitudes[iter];
+        // }
+        multiplier = amplitudes[iter];
         ofSetColor(randomInt1, randomInt2, randomInt3);
-        ofDrawRectangle(i, ofGetHeight(), 32, amplitudes[iter]);
+        ofDrawRectangle(i, ofGetHeight(), 32, multiplier);
+
         iter++;
         if (iter == 64)
         {
@@ -163,7 +167,7 @@ void ofApp::drawMode2(vector<float> amplitudes)
 {
     ofSetColor(0, 0, 0);
     ofSetLineWidth(10); // Sets the line width
-    ofNoFill();        // Only the outline of shapes will be drawn
+    ofNoFill();         // Only the outline of shapes will be drawn
     myFont3.drawString("Circle Radius Visualizer", 0, 25);
 
     int bands = amplitudes.size();
@@ -216,8 +220,6 @@ void ofApp::drawMode4(vector<float> amplitudes)
     // cam.end();
     // light.disable();
     // ofDisableDepthTest();
-    
-    
 }
 
 //--------------------------------------------------------------

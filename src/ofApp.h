@@ -49,6 +49,7 @@ public:
 	int k = 0;
 	int nextOne = 0;
 	int keyVal;
+	int visualizerMultiplier = 1;
 
 	ofTrueTypeFont myFont1;
 	ofTrueTypeFont myFont2;
