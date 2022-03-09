@@ -11,10 +11,11 @@ void ofApp::setup()
     currentVol = 0.5;
     sound.setVolume(currentVol*50); // Sets the song volume
     ofSetBackgroundColor(256, 256, 256);
-    myFont1.load("Lato-Regular.ttf", 15);
-    myFont2.load("Gravis.ttf", 30);
-    myFont3.load("Lato-Regular.ttf", 25);
-    pressP = "Press 'P' to play some music!";
+    myFont1.load("texreg.ttf", 15);
+    myFont2.load("textbold.ttf", 30);
+    myFont3.load("textbold.ttf", 15);
+
+    pressP = "PRESS 'P' TO PLAY SOME MUSIC!";
 }
 
 //--------------------------------------------------------------
@@ -78,14 +79,14 @@ void ofApp::draw()
 
     ofSetColor(0, 0, 0);
     string currentMusic = playlist[nextOne]; //draw m
-    myFont2.drawString(currentMusic, 0, 75); // will draw current music
+    myFont3.drawString(currentMusic, 0, 75); // will draw current music
 
     if (recording) // will draw REC when user presses r and recording
     {
         if (secondsPassed % 2) // every 2 seconds
         {
             ofSetColor(155, 0, 0); // red
-            myFont2.drawString("REC", 0, 125);
+            myFont3.drawString("REC", 0, 125);
         }
     }
 
@@ -128,12 +129,15 @@ void ofApp::draw()
         myFont1.drawString("Volume up: '='", 300, 420);
         myFont1.drawString("Volume: " + to_string(currentVol), 500, 300);
         myFont1.drawString("X: " + to_string(ofGetMouseX()) + ", Y: " + to_string(ofGetMouseY()), 300, 460);
-        myFont2.drawString("Help", 450, 265);
+        myFont2.drawString("HELP", ofGetWidth()/2 - myFont2.stringWidth("HELP"), 265);
         ofSetColor(randomInt1, randomInt2, randomInt3);
     }
 
+
     menu.background(0,0,0,200);
     menu.screenDisplay();
+    
+
     ofDisableAlphaBlending();
     
 }
@@ -141,7 +145,7 @@ void ofApp::drawMode1(vector<float> amplitudes)
 {
     ofFill();
     ofSetColor(0, 0, 0);
-    myFont1.drawString("Rectangle Height Visualizer", 0, 25);
+    myFont3.drawString("RECTANGLE HEIGHT VISUALIZER", 0, 25);
 
     ofSetColor(randomInt1, randomInt2, randomInt3);
     for (int i = 0; i < ofGetWidth(); i += ofGetWidth() / 64)
@@ -159,7 +163,7 @@ void ofApp::drawMode2(vector<float> amplitudes)
     ofSetColor(0, 0, 0);
     ofSetLineWidth(5); // Sets the line width
     ofNoFill();        // Only the outline of shapes will be drawn
-    myFont1.drawString("Circle Radius Visualizer", 0, 25);
+    myFont3.drawString("CIRCLE RADIUS VISUALIZER", 0, 25);
 
     int bands = amplitudes.size();
     for (int j = 0; j < bands; j++)
@@ -175,7 +179,7 @@ void ofApp::drawMode3(vector<float> amplitudes)
 {
     ofFill();
     ofSetColor(0, 0, 0);
-    myFont1.drawString("Rectangle Width Visualizer", 0, 25);
+    myFont3.drawString("RECTANGLE WIDTH VISUALIZER", 0, 25);
 
     ofSetColor(randomInt1, randomInt2, randomInt3);
     for (int i = 0; i < ofGetHeight(); i += ofGetHeight() / 64)
