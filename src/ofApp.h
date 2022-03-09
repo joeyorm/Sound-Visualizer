@@ -68,6 +68,9 @@ public:
 	ofLight light;
 
 	Screens menu;
+	Button playSong;
+
+	bool mousepressed = false;
 
 private:
 	ofSoundPlayer sound;

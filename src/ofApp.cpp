@@ -50,6 +50,13 @@ void ofApp::update()
         }
     }
 
+    if (playSong.getPressedEvent()){
+            nextMusic = false;
+            sound.loadSound(playlist[0]); // use the iterator (nextOne) to pick a song from the Vector                     // play the visualizer
+            sound.play();                       // start the sound
+            sound.setLoop(true); 
+    }
+
     if (nextMusic) //(bool nextMusic) is changed to true every time n is pressed
     {
         nextOne++;
@@ -133,7 +140,8 @@ void ofApp::draw()
     }
 
     menu.background(0, 0, 0, 200);
-    menu.screenDisplay();
+    menu.screenDisplay(); //FIXME:
+    playSong.buttonDisplay();
 
     ofDisableAlphaBlending();
 }
@@ -317,6 +325,7 @@ void ofApp::keyPressed(int key)
         break;
     case 'm': // toggle menu on or off
         menu.toggle();
+        playSong.toggle();
         break;
     }
 }
@@ -338,6 +347,7 @@ void ofApp::mouseDragged(int x, int y, int button)
 //--------------------------------------------------------------
 void ofApp::mousePressed(int x, int y, int button)
 {
+    playSong.buttonPress(button);
 }
 
 //--------------------------------------------------------------
