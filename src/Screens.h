@@ -6,7 +6,6 @@
 #include <iostream>
 using namespace std;
 
-
 class Screens
 {
 
@@ -43,21 +42,28 @@ public:
 	}
 	void setScreenWidth(float width) { screenWidth = this->width; }
 	void setScreenHeight(float height) { screenHeight = this->height; }
-	void setScreenBackGround(float r, float g, float b) { ofSetBackgroundColor(ofColor::fromHsb(r, g, b)); }
-	void enable() { toggler = true; }
-	void disable() { toggler = false; }
-
+	void toggle() {toggler = !toggler;}
 	// Getters
 	float getScreenWidth() { return screenWidth; }
 	float getScreenHeight() { return screenHeight; }
 	float getScreenStartPosX() { return xPos; }
 	float getScreenStartPosY() { return yPos; }
+	
 
 	void screenDisplay()
 	{
 		if (this->toggler)
 		{
+			ofFill();
 			ofDrawRectangle(getScreenStartPosX(), getScreenStartPosY(), getScreenWidth(), getScreenHeight());
 		}
+	}
+
+	void background(float r, float g, float b){
+		ofSetColor(ofColor::fromHsb(r, g, b));
+	}
+	void background(float r, float g, float b, float z)
+	{	ofEnableAlphaBlending();
+		ofSetColor(ofColor::fromHsb(r, g, b ,z));
 	}
 };

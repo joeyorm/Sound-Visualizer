@@ -9,7 +9,7 @@ void ofApp::setup()
     sound.loadSound("beat.wav"); // Loads a sound file (in bin/data/)
     sound.setLoop(true);                // Makes the song loop indefinitely
     currentVol = 0.5;
-    sound.setVolume(currentVol*20); // Sets the song volume
+    sound.setVolume(currentVol*50); // Sets the song volume
     ofSetBackgroundColor(256, 256, 256);
     myFont1.load("Lato-Regular.ttf", 15);
     myFont2.load("Gravis.ttf", 30);
@@ -65,15 +65,13 @@ void ofApp::update()
         }
         nextMusic = false; // always set the bool to false so that we are not changing songs wildly
     }
-    for (int side = 0; side < 6; side++)
-    {
-        newBox.setSideColor(side, ofColor::fromHsb(137, 15, 13));
-    }
 }
 
 //--------------------------------------------------------------
 void ofApp::draw()
 {
+    
+
     ofColor colorOne(255, 187, 187);
     ofColor colorTwo(255, 228, 192);
     ofBackgroundGradient(colorOne, colorTwo, OF_GRADIENT_LINEAR);
@@ -133,6 +131,11 @@ void ofApp::draw()
         myFont2.drawString("Help", 450, 265);
         ofSetColor(randomInt1, randomInt2, randomInt3);
     }
+
+    menu.background(0,0,0,200);
+    menu.screenDisplay();
+    ofDisableAlphaBlending();
+    
 }
 void ofApp::drawMode1(vector<float> amplitudes)
 {
@@ -208,6 +211,8 @@ void ofApp::drawMode4(vector<float> amplitudes)
     // cam.end();
     // light.disable();
     // ofDisableDepthTest();
+    
+    
 }
 
 //--------------------------------------------------------------
@@ -302,6 +307,9 @@ void ofApp::keyPressed(int key)
         break;
     case 'a': // toggle Amplitudes stop
         ampStop = !ampStop;
+        break;
+    case 'm': // toggle menu on or off
+        menu.toggle();
         break;
     }
 }
