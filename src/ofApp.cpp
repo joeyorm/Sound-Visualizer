@@ -6,10 +6,10 @@ using namespace std;
 //--------------------------------------------------------------
 void ofApp::setup()
 {
-    sound.loadSound("beat.wav"); // Loads a sound file (in bin/data/)
+    sound.loadSound(playlist[nextOne]); // Loads a sound file (in bin/data/)
     sound.setLoop(true);                // Makes the song loop indefinitely
     currentVol = 0.5;
-    sound.setVolume(currentVol*50); // Sets the song volume
+    sound.setVolume(currentVol*100); // Sets the song volume
     ofSetBackgroundColor(256, 256, 256);
     myFont1.load("texreg.ttf", 15);
     myFont2.load("textbold.ttf", 30);
@@ -79,7 +79,7 @@ void ofApp::draw()
 
     ofSetColor(0, 0, 0);
     string currentMusic = playlist[nextOne]; //draw m
-    myFont3.drawString(currentMusic, 0, 75); // will draw current music
+    myFont3.drawString(currentMusic.erase(currentMusic.length()-4,-4),0, 75); // will draw current music
 
     if (recording) // will draw REC when user presses r and recording
     {
@@ -127,7 +127,7 @@ void ofApp::draw()
         myFont1.drawString("FPS: " + to_string(ofGetFrameNum() % 60), 300, 300);
         myFont1.drawString("Volume down: '-'", 300, 380);
         myFont1.drawString("Volume up: '='", 300, 420);
-        myFont1.drawString("Volume: " + to_string(currentVol), 500, 300);
+        myFont1.drawString("Volume: " + to_string(currentVol).erase(to_string(currentVol).length()-4,-4), 500, 300);
         myFont1.drawString("X: " + to_string(ofGetMouseX()) + ", Y: " + to_string(ofGetMouseY()), 300, 460);
         myFont2.drawString("HELP", ofGetWidth()/2 - myFont2.stringWidth("HELP"), 265);
         ofSetColor(randomInt1, randomInt2, randomInt3);
@@ -145,11 +145,12 @@ void ofApp::drawMode1(vector<float> amplitudes)
 {
     ofFill();
     ofSetColor(0, 0, 0);
-    myFont3.drawString("RECTANGLE HEIGHT VISUALIZER", 0, 25);
+    myFont3.drawString("Rectangle Height Visualizer", 0, 25);
 
-    ofSetColor(randomInt1, randomInt2, randomInt3);
+   
     for (int i = 0; i < ofGetWidth(); i += ofGetWidth() / 64)
     {
+        ofSetColor(randomInt1, randomInt2, randomInt3);
         ofDrawRectangle(i, ofGetHeight(), 32, amplitudes[iter]);
         iter++;
         if (iter == 64)
@@ -161,9 +162,9 @@ void ofApp::drawMode1(vector<float> amplitudes)
 void ofApp::drawMode2(vector<float> amplitudes)
 {
     ofSetColor(0, 0, 0);
-    ofSetLineWidth(5); // Sets the line width
+    ofSetLineWidth(10); // Sets the line width
     ofNoFill();        // Only the outline of shapes will be drawn
-    myFont3.drawString("CIRCLE RADIUS VISUALIZER", 0, 25);
+    myFont3.drawString("Circle Radius Visualizer", 0, 25);
 
     int bands = amplitudes.size();
     for (int j = 0; j < bands; j++)
@@ -179,7 +180,7 @@ void ofApp::drawMode3(vector<float> amplitudes)
 {
     ofFill();
     ofSetColor(0, 0, 0);
-    myFont3.drawString("RECTANGLE WIDTH VISUALIZER", 0, 25);
+    myFont3.drawString("Rectangle Width Visualizer", 0, 25);
 
     ofSetColor(randomInt1, randomInt2, randomInt3);
     for (int i = 0; i < ofGetHeight(); i += ofGetHeight() / 64)

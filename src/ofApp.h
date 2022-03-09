@@ -62,7 +62,7 @@ public:
 	ofBoxPrimitive newBox;
 	ofEasyCam cam;
 
-	vector<string> playlist = {"beat.wav", "geesebeat.wav", "pigeon-coo.wav", "rock-song.wav"};
+	vector<string> playlist = {"My_Wife_2_Dogs.wav","beat.wav", "geesebeat.wav", "pigeon-coo.wav", "rock-song.wav"};
 
 	ofLight light;
 
