@@ -127,7 +127,7 @@ void ofApp::draw()
         myFont1.drawString("FPS: " + to_string(ofGetFrameNum() % 60), 300, 300);
         myFont1.drawString("Volume down: '-'", 300, 380);
         myFont1.drawString("Volume up: '='", 300, 420);
-        myFont1.drawString("Volume: " + to_string(currentVol).erase(to_string(currentVol).length()-4,-4), 500, 300);
+        myFont1.drawString("Volume: " + to_string(currentVol).erase(to_string(currentVol).length()-4,-5), 500, 300);
         myFont1.drawString("X: " + to_string(ofGetMouseX()) + ", Y: " + to_string(ofGetMouseY()), 300, 460);
         myFont2.drawString("HELP", ofGetWidth()/2 - myFont2.stringWidth("HELP"), 265);
         ofSetColor(randomInt1, randomInt2, randomInt3);
