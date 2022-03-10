@@ -27,3 +27,7 @@ The AudioVisualizer class provides us with the data needed to do the visualizati
 - '8' will play the second song.
 - '9' will play the third song.
 - '0' will play the fourth song.
+
+## Contributors
+- Joey Ortega Mandia - joey.ortega@upr.edu
+- Angel Feliciano Portalatin - angel.feliciano21@upr.edu
