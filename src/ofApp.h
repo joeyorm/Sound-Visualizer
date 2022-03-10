@@ -81,7 +81,6 @@ public:
 
 	vector<string> playlist = {"My_Wife_2_Dogs.wav","beat.wav", "Way_Less_Sad.wav", "Believer.wav"};
 	vector<string> backgroundImages = {"KeepitSimple.png","LetsStartAgain.png", "NeverForgetWhereYouStarted.png"};
-	vector<ofSoundPlayer> sound;
 	ofLight light;
 
 	Screens menu;
