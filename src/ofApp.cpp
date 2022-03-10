@@ -115,28 +115,21 @@ void ofApp::draw()
         ofDisableAlphaBlending();
     }
 
-    if (playing)
-    {
+    // if (playing)
+    // {
 
-        ofEnableAlphaBlending();
-        ofSetColor(247, 247, 247);
-        playButton.draw(ofGetWidth() / 2 - floor(playButton.getWidth() / 2), ofGetHeight() / 2 - floor(playButton.getHeight() / 2));
-        playButton.resize(100, 100);
-        ofDisableAlphaBlending();
-    }
+    //     ofEnableAlphaBlending();
+    //     ofSetColor(247, 247, 247);
+    //     playButton.draw(ofGetWidth() / 2 - floor(playButton.getWidth() / 2), ofGetHeight() / 2 - floor(playButton.getHeight() / 2));
+    //     playButton.resize(100, 100);
+    //     ofDisableAlphaBlending();
+    // }
 
     ofSetColor(0, 0, 0);                                                          // FIXME:
     string currentMusic = playlist[nextOne];                                      // draw m
     myFont3.drawString(currentMusic.erase(currentMusic.length() - 4, -4), 0, 75); // will draw current music
 
-    if (recording) // will draw REC when user presses r and recording
-    {
-        if (secondsPassed % 2) // every 2 seconds
-        {
-            ofSetColor(155, 0, 0); // red
-            myFont3.drawString("REC", 0, 125);
-        }
-    }
+    
 
     vector<float> amplitudes = visualizer.getAmplitudes();
     if (mode == '1')
@@ -172,6 +165,16 @@ void ofApp::draw()
         myFont1.drawString("X: " + to_string(ofGetMouseX()) + ", Y: " + to_string(ofGetMouseY()), 300, 460);
         myFont2.drawString("HELP", ofGetWidth() / 2 - myFont2.stringWidth("HELP"), 265);
         ofSetColor(randomInt1, randomInt2, randomInt3);
+    }
+
+    if (recording) // will draw REC when user presses r and recording
+    {
+        if (booleanTimer(2)) // every 2 seconds
+        {
+            ofDisableAlphaBlending();
+            ofSetColor(155, 0, 0); // red
+            myFont3.drawString("REC", 0, 125);
+        }
     }
 
     menu.background(0, 0, 0, 200);

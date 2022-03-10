@@ -31,7 +31,7 @@ public:
 	void dragEvent(ofDragInfo dragInfo);
 	void gotMessage(ofMessage msg);
 
-	// bool booleanTimer(int intervalToReturnBool);
+
 	bool helpButtons = false;
 	bool cancel = false;
 	bool replay = false;
@@ -83,7 +83,7 @@ public:
 
 bool booleanTimer(int intervalToReturnBool) // becomes true every n seconds for one frame
 {
-    if (ofGetFrameNum() % (60 * intervalToReturnBool) == 0)
+    if (ofGetFrameNum() % 60 * (intervalToReturnBool) == 0)
     {
         return true;
     }
