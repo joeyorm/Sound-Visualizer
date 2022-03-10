@@ -77,8 +77,8 @@ void ofApp::update()
 
     if (nextMusic)                          // FIXME: //(bool nextMusic) is changed to true every time n is pressed
     {
-        nextOne++;                          // FIXME:
-        if (nextOne < playlist.size() - 1)  // if the iterator (nextOne) is less than the size of the playlist then do
+        nextOne++;                          // FIXME: -Angel: i mightve fixed it quitandole el -1, maybe...   XD
+        if (nextOne < playlist.size())  // if the iterator (nextOne) is less than the size of the playlist then do
         {
             sound.loadSound(playlist[nextOne]); // use the iterator (nextOne) to pick a song from the Vector
             playing = true;                     // play the visualizer
