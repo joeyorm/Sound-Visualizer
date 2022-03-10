@@ -227,8 +227,8 @@ void ofApp::draw()
         {
             ofEnableAlphaBlending();
             ofSetColor(255, 255, 255);
-            ImgRecording.draw(floor(ofGetWidth() - ImgRecording.getWidth() - 10), floor(20));
             ImgRecording.resize(75, 75);
+            ImgRecording.draw(floor(ofGetWidth() - ImgRecording.getWidth() - 10), floor(20));
             ofDisableAlphaBlending();
         }
     }
@@ -349,7 +349,7 @@ void ofApp::keyPressed(int key)
         keyVal = key;
     }
 
-    if (recording && key != 'r')
+    if (recording && key != 'r' && key != 't')
     {
         this->keystrokes.push_back(key);
     }
@@ -443,6 +443,14 @@ void ofApp::keyPressed(int key)
     case 'B':
         BPressed = true;
         break;
+    case '7':
+        nextOne = 0;
+    case '8':
+        nextOne = 1;
+    case '9':
+        nextOne = 2;
+    case '0':
+        nextOne = 3;
     }
 }
 //--------------------------------------------------------------
