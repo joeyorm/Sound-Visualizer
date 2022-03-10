@@ -5,6 +5,7 @@
 #include <vector>
 #include <iostream>
 #include "Screens.h"
+#include <bits/stdc++.h>
 using namespace std;
 
 class ofApp : public ofBaseApp
@@ -63,6 +64,7 @@ public:
 	int keyVal;
 	int secPass = 0;
 	int visualizerMultiplier = 1;
+	int file_index = -1;
 	float time = 255;
 
 	ofTrueTypeFont myFont1;

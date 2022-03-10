@@ -1,6 +1,7 @@
 #include "ofApp.h"
 #include <vector>
 #include <iostream>
+#include <bits/stdc++.h>
 using namespace std;
 
 //--------------------------------------------------------------
@@ -525,7 +526,12 @@ void ofApp::gotMessage(ofMessage msg)
 }
 
 //--------------------------------------------------------------
-void ofApp::dragEvent(ofDragInfo dragInfo)
-{
-    
+void ofApp::dragEvent(ofDragInfo dragInfo){
+
+    if (dragInfo.files.size() > 0 && playlist.back() != dragInfo.files[0]) {
+
+    playlist.push_back(dragInfo.files[0]);
+    dragInfo.files.clear();
+
+    }
 }
