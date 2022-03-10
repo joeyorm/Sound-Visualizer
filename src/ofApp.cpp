@@ -6,17 +6,17 @@ using namespace std;
 //--------------------------------------------------------------
 void ofApp::setup()
 {
-    sound.loadSound(playlist[0]);        // Loads a sound file (in bin/data/)
-    sound.setLoop(true);                 // Makes the song loop indefinitely
+    sound.loadSound(playlist[0]); // Loads a sound file (in bin/data/)
+    sound.setLoop(true);          // Makes the song loop indefinitely
 
-    currentVol = 0.5;                    // The current volume
-    sound.setVolume(currentVol * 100);   // Sets the song volume
+    currentVol = 0.5;                  // The current volume
+    sound.setVolume(currentVol * 100); // Sets the song volume
 
     ofSetBackgroundColor(256, 256, 256);
-    myFont1.load("texreg.ttf", 15);      // Loads the text fonts
-    myFont2.load("textbold.ttf", 30);    // Loads the text fonts
-    myFont3.load("textbold.ttf", 15);    // Loads the text fonts
-    myFont4.load("textbold.ttf", 100);   // Loads the text fonts
+    myFont1.load("texreg.ttf", 15);    // Loads the text fonts
+    myFont2.load("textbold.ttf", 30);  // Loads the text fonts
+    myFont3.load("textbold.ttf", 15);  // Loads the text fonts
+    myFont4.load("textbold.ttf", 100); // Loads the text fonts
 
     imageBg.load("KeepitSimple.png");    // Loads the images
     pauseButton.load("pauseButton.png"); // Loads the images
@@ -28,23 +28,20 @@ void ofApp::update()
 {
     ofSoundUpdate();             // Updates all sound players
     sound.setVolume(currentVol); // updates the volume
-    playSong.buttonPress();
 
-    if (booleanTimer(20, 60))    //20 is the seconds that it has to wait, 60 is the speed of the second (100%)
-    { 
-        if (booleanTimer(4))     //wait for 4 seconds and then go ahead and update the variable time, so that it can start fading
-        {
-            startFinish = true;
-        }
-        if (time > 0 && startFinish)
-        {
-            time -= 1;
-        }
+    if (time > 0 && startFinish)
+    {
+        time -= 1;
     }
 
-    if (not ampStop)                   //stops the visualizer if a is pressed causing the bool to be false, 
-    {                
+    if (not ampStop) // stops the visualizer if a is pressed causing the bool to be false,
+    {
         visualizer.updateAmplitudes(); // Updates Amplitudes for visualizer
+    }
+
+    if (booleanTimer(4)) // wait for 4 seconds and then go ahead and update the variable time, so that it can start fading
+    {
+        startFinish = true;
     }
 
     if (booleanTimer(4))
@@ -54,7 +51,7 @@ void ofApp::update()
         randomInt3 = ofRandom(0, 255);
     }
 
-    if (booleanTimer(2) && replay && not cancel) //Allows replay
+    if (booleanTimer(2) && replay && not cancel) // Allows replay
     {
         keyPressed(keystrokes[k]);
         k++;
@@ -66,35 +63,83 @@ void ofApp::update()
         }
     }
 
-    if (playSong.getPressedEvent())
+    // MUSIC CHANGER FORWARD
+    if (nPressed)
     {
-        nextMusic = false;
-        nextOne = 0;
-        sound.loadSound(playlist[nextOne]); // use the iterator (nextOne) to pick a song from the Vector                     // play the visualizer
-        sound.play();                       // start the sound
-        sound.setLoop(true);
-    }
-
-    if (nextMusic)                          // FIXME: //(bool nextMusic) is changed to true every time n is pressed
-    {
-        nextOne++;                          // FIXME: -Angel: i mightve fixed it quitandole el -1, maybe...   XD
-        if (nextOne < playlist.size())  // if the iterator (nextOne) is less than the size of the playlist then do
+        nextOne++;
+        if (nextOne < playlist.size() - 1)
         {
-            sound.loadSound(playlist[nextOne]); // use the iterator (nextOne) to pick a song from the Vector
-            playing = true;                     // play the visualizer
-            sound.play();                       // start the sound
-            sound.setLoop(true);                // loop the sound
+            sound.loadSound(playlist[nextOne]);
+            playing = true;
+            sound.play();
+            sound.setLoop(true);
         }
-        else // if the iterator (nextOne) is greater than the size of the playlist then do
+        else
         {
-            nextOne = 0; // set iterator back to 0//FIXME:
-            sound.loadSound(playlist[nextOne]); // use the iterator (nextOne) to pick a song from the Vector
-            playing = true;                     // play the visualizer
-            sound.play();                       // start the sound
+            nextOne = 0;
+            sound.loadSound(playlist[nextOne]);
+            playing = true;
+            sound.play();
             sound.setLoop(true);
         }
 
-        nextMusic = false; // always set the bool to false so that we are not changing songs wildly
+        nPressed = false;
+    }
+
+    // MUSIC CHANGER BACKWARDS
+    if (NPressed)
+    {
+        nextOne--;
+        if (nextOne >= 0)
+        {
+            sound.loadSound(playlist[nextOne]);
+            playing = true;
+            sound.play();
+            sound.setLoop(true);
+        }
+        else
+        {
+            nextOne = playlist.size() - 1;
+            sound.loadSound(playlist[nextOne]);
+            playing = true;
+            sound.play();
+            sound.setLoop(true);
+        }
+
+        NPressed = false;
+    }
+
+
+    // BACKGROUND CHANGER FORWARD
+    if (bPressed)
+    {
+        nextBackground++;
+        if (nextBackground < backgroundImages.size() - 1)
+        {
+            imageBg.load(backgroundImages[nextBackground]);
+        }
+        else
+        {
+            nextBackground = 0;
+            imageBg.load(backgroundImages[nextBackground]);
+        }
+        bPressed = false;
+    }
+
+    // BACKGROUND CHANGER BACKWARDS
+    if (BPressed)
+    {
+        nextBackground--;
+        if (nextBackground >= 0)
+        {
+            imageBg.load(backgroundImages[nextBackground]);
+        }
+        else
+        {
+            nextBackground = backgroundImages.size() - 1;
+            imageBg.load(backgroundImages[nextBackground]);
+        }
+        BPressed = false;
     }
 }
 
@@ -104,6 +149,7 @@ void ofApp::draw()
 
     ofSetColor(247, 247, 247);
     imageBg.draw(ofGetWidth() / 2 - imageBg.getWidth() / 2, ofGetHeight() / 2 - imageBg.getHeight() / 2);
+    imageBg.resize(ofGetWidth(), ofGetHeight());
 
     if (!playing)
     {
@@ -128,8 +174,6 @@ void ofApp::draw()
     ofSetColor(0, 0, 0);                                                          // FIXME:
     string currentMusic = playlist[nextOne];                                      // draw m
     myFont3.drawString(currentMusic.erase(currentMusic.length() - 4, -4), 0, 75); // will draw current music
-
-    
 
     vector<float> amplitudes = visualizer.getAmplitudes();
     if (mode == '1')
@@ -169,17 +213,20 @@ void ofApp::draw()
 
     if (recording) // will draw REC when user presses r and recording
     {
-        if (booleanTimer(2)) // every 2 seconds
+        if (secPass % 2 == 0) // every 2 seconds , modulo 1 is equal to no blinking, modulo 2 blinks
         {
-            ofDisableAlphaBlending();
-            ofSetColor(155, 0, 0); // red
+            ofEnableAlphaBlending();
+            ofSetColor(255, 255, 255);
+            ImgRecording.draw(floor(10), floor(125));
+            ImgRecording.resize(100, 100);
             myFont3.drawString("REC", 0, 125);
+            ofDisableAlphaBlending();
         }
     }
 
     menu.background(0, 0, 0, 200);
     menu.screenDisplay(); // FIXME: //Animation?? y = ofNoise(ofGetElapsedTime())
-    playSong.buttonDisplay();
+    
 
     ofEnableAlphaBlending();
     welcomeScreen.toggle();
@@ -365,15 +412,26 @@ void ofApp::keyPressed(int key)
         }
         break;
 
-    case 'n': // toggle nextMusic
-        nextMusic = true;
+    
+    case 'n': // toggle next Music songs
+        nPressed = true;
         break;
+    case 'N':
+        NPressed = true;
+        break;
+
     case 'a': // toggle Amplitudes stop
         ampStop = !ampStop;
         break;
     case 'm': // toggle menu on or off
         menu.toggle();
-        playSong.toggle();
+        break;
+
+    case 'b':
+        bPressed = true;
+        break;
+    case 'B':
+        BPressed = true;
         break;
     }
 }

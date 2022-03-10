@@ -35,10 +35,17 @@ public:
 	bool helpButtons = false;
 	bool cancel = false;
 	bool replay = false;
-	bool nextMusic = false;
+
+
 	bool ampStop = false;
 	bool startFinish = false;
 
+	bool bPressed = false;
+	bool BPressed = false;
+	bool nPressed = false;
+	bool NPressed = false;
+	bool mousepressed = false;
+	
 	float randomInt1;
 	float randomInt2;
 	float randomInt3;
@@ -49,7 +56,9 @@ public:
 	int iter2 = 0;
 	int k = 0;
 	int nextOne = 0;
+	int nextBackground = 0;
 	int keyVal;
+	int secPass = 0;
 	int visualizerMultiplier = 1;
 	float time = 255;
 
@@ -67,41 +76,52 @@ public:
 	ofEasyCam cam;
 
 	vector<string> playlist = {"My_Wife_2_Dogs.wav","beat.wav", "Way_Less_Sad.wav", "Believer.wav"};
-
+	vector<string> backgroundImages = {"KeepitSimple.png","LetsStartAgain.png", "NeverForgetWhereYouStarted.png"};
 	ofLight light;
 
 	Screens menu;
 	Screens welcomeScreen;
-	Button playSong;
-
-	bool mousepressed = false;
 
 	ofImage imageBg;
 	ofImage pauseButton;
 	ofImage playButton;
+	ofImage ImgRecording;
 
 
 bool booleanTimer(int intervalToReturnBool) // becomes true every n seconds for one frame
-{
-    if (ofGetFrameNum() % 60 * (intervalToReturnBool) == 0)
-    {
-        return true;
-    }
-    else
-    {
-        return false;
-    }
-}
+	{
+		if (ofGetFrameNum() % (60 * intervalToReturnBool) == 0)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
 
-bool booleanTimer(int intervalToReturnBool, int secSpeed){
-    if (ofGetFrameNum() % (secSpeed * intervalToReturnBool)){
-        return true;
-    }
-    else{
-        return false;
-    }
-}
+bool booleanTimer(int intervalToReturnBool, int secSpeed)
+	{
+		if (ofGetFrameNum() % (secSpeed * intervalToReturnBool))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
 
+void Timer()
+	{
+		if (ofGetFrameNum() % (60) == 0)
+		{
+			secPass++;
+			if(secPass % 60 == 0){
+				secPass = 0;
+			}
+		}
+	}
 private:
 	ofSoundPlayer sound;
 	AudioVisualizer visualizer;
