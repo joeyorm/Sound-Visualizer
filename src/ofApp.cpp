@@ -28,6 +28,10 @@ void ofApp::setup()
 //--------------------------------------------------------------
 void ofApp::update()
 {
+
+
+    
+ 
     ofSoundUpdate();             // Updates all sound players
     sound.setVolume(currentVol); // updates the volume
 
@@ -48,6 +52,14 @@ void ofApp::update()
 				secPass = 0;
 			}
 		}
+    if(wrongPress){
+        ofSetColor(175,0,0);
+        string donotpress = "Can't press this button right now";
+        myFont2.drawString(donotpress, ofGetWidth()/2 - myFont2.stringWidth(donotpress)/2, ofGetHeight()/4 - myFont2.stringHeight(donotpress)/4);
+        if(booleanTimer(2)){
+            wrongPress = false;
+        }
+    }
 
     if (booleanTimer(4)) // wait for 4 seconds and then go ahead and update the variable time, so that it can start fading
     {
@@ -384,6 +396,10 @@ void ofApp::keyPressed(int key)
         {
             replay = true;
         }
+        if (recording){
+            wrongPress = !wrongPress;
+        }
+        
         break;
     case '1':
         mode = '1';
@@ -511,4 +527,5 @@ void ofApp::gotMessage(ofMessage msg)
 //--------------------------------------------------------------
 void ofApp::dragEvent(ofDragInfo dragInfo)
 {
+    
 }

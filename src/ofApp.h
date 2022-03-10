@@ -45,6 +45,7 @@ public:
 	bool nPressed = false;
 	bool NPressed = false;
 	bool mousepressed = false;
+	bool wrongPress = false;
 	
 	float randomInt1;
 	float randomInt2;
@@ -80,6 +81,7 @@ public:
 
 	vector<string> playlist = {"My_Wife_2_Dogs.wav","beat.wav", "Way_Less_Sad.wav", "Believer.wav"};
 	vector<string> backgroundImages = {"KeepitSimple.png","LetsStartAgain.png", "NeverForgetWhereYouStarted.png"};
+	vector<ofSoundPlayer> sound;
 	ofLight light;
 
 	Screens menu;
