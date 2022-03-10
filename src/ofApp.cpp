@@ -17,11 +17,12 @@ void ofApp::setup()
     myFont2.load("textbold.ttf", 30);  // Loads the text fonts
     myFont3.load("textbold.ttf", 15);  // Loads the text fonts
     myFont4.load("textbold.ttf", 100); // Loads the text fonts
+    myFont5.load("textbold.ttf", 22);
 
     imageBg.load("KeepitSimple.png");    // Loads the images
     pauseButton.load("pauseButton.png"); // Loads the images
     playButton.load("playButtton.png");  // Loads the images
-    
+    ImgRecording.load("rec.png");
 }
 
 //--------------------------------------------------------------
@@ -76,7 +77,7 @@ void ofApp::update()
     if (nPressed)
     {
         nextOne++;
-        if (nextOne < playlist.size() - 1)
+        if (nextOne < playlist.size())
         {
             sound.loadSound(playlist[nextOne]);
             playing = true;
@@ -182,7 +183,7 @@ void ofApp::draw()
 
     ofSetColor(0, 0, 0);                                                          // FIXME:
     string currentMusic = playlist[nextOne];                                      // draw m
-    myFont3.drawString(currentMusic.erase(currentMusic.length() - 4, -4), 0, 75); // will draw current music
+    myFont5.drawString(currentMusic.erase(currentMusic.length() - 4, -4), n, 75 + l); // will draw current music
 
     vector<float> amplitudes = visualizer.getAmplitudes();
     if (mode == '1')
@@ -226,9 +227,8 @@ void ofApp::draw()
         {
             ofEnableAlphaBlending();
             ofSetColor(255, 255, 255);
-            ImgRecording.draw(floor(10), floor(125));
-            ImgRecording.resize(100, 100);
-            myFont3.drawString("REC", 0, 125);
+            ImgRecording.draw(floor(ofGetWidth() - ImgRecording.getWidth() - 10), floor(20));
+            ImgRecording.resize(75, 75);
             ofDisableAlphaBlending();
         }
     }
@@ -253,7 +253,7 @@ void ofApp::drawMode1(vector<float> amplitudes)
 {
     ofFill();
     ofSetColor(0, 0, 0);
-    myFont3.drawString("Rectangle Height Visualizer", 0, 25);
+    myFont5.drawString("Rectangle Height Visualizer", n, 25 + l);
 
     for (int i = 0; i < ofGetWidth(); i += ofGetWidth() / 64)
     {
@@ -280,7 +280,7 @@ void ofApp::drawMode2(vector<float> amplitudes)
     ofSetColor(0, 0, 0);
     ofSetLineWidth(10); // Sets the line width
     ofNoFill();         // Only the outline of shapes will be drawn
-    myFont3.drawString("Circle Radius Visualizer", 0, 25);
+    myFont5.drawString("Circle Radius Visualizer", n, 25 + l);
 
     int bands = amplitudes.size();
     for (int j = 0; j < bands; j++)
@@ -296,7 +296,7 @@ void ofApp::drawMode3(vector<float> amplitudes)
 {
     ofFill();
     ofSetColor(0, 0, 0);
-    myFont3.drawString("Rectangle Width Visualizer", 0, 25);
+    myFont5.drawString("Rectangle Width Visualizer", n, 25 + l);
 
     ofSetColor(randomInt1, randomInt2, randomInt3);
     for (int i = 0; i < ofGetHeight(); i += ofGetHeight() / 64)
@@ -312,12 +312,13 @@ void ofApp::drawMode3(vector<float> amplitudes)
 
 void ofApp::drawMode4(vector<float> amplitudes)
 {
+    myFont5.drawString("Cube Visualizer", n, 25 + l);
     ofEnableDepthTest();
     // ofSetBackgroundColor(0, 0, 0);
     newBox.setPosition(0, 0, 0);
     newBox.set(100, abs(2 * amplitudes[0] / 4) + 50, 100);
-    light.setPosition(0, 100, -30);
-    light.enable();
+    // light.setPosition(0, 100, -30);
+    // light.enable();
 
     if (booleanTimer(3))
     {
@@ -330,7 +331,7 @@ void ofApp::drawMode4(vector<float> amplitudes)
     cam.begin();
     newBox.draw();
     cam.end();
-    light.disable();
+    // light.disable();
     ofDisableDepthTest();
 }
 

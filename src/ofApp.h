@@ -55,6 +55,8 @@ public:
 	int iter = 0;
 	int iter2 = 0;
 	int k = 0;
+	int n = 5;
+	int l = 20;
 	int nextOne = 0;
 	int nextBackground = 0;
 	int keyVal;
@@ -66,6 +68,7 @@ public:
 	ofTrueTypeFont myFont2;
 	ofTrueTypeFont myFont3;
 	ofTrueTypeFont myFont4;
+	ofTrueTypeFont myFont5;
 
 	string currentMusic;
 	string pressP;
@@ -100,17 +103,6 @@ bool booleanTimer(int intervalToReturnBool) // becomes true every n seconds for 
 		}
 	}
 
-bool booleanTimer(int intervalToReturnBool, int secSpeed)
-	{
-		if (ofGetFrameNum() % (secSpeed * intervalToReturnBool))
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
-	}
 private:
 	ofSoundPlayer sound;
 	AudioVisualizer visualizer;
