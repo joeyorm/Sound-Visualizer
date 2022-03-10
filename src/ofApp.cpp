@@ -444,13 +444,21 @@ void ofApp::keyPressed(int key)
         BPressed = true;
         break;
     case '7':
-        nextOne = 0;
+        nPressed = true;
+        nextOne = 0 - 1; // my wife
+        break;
     case '8':
-        nextOne = 1;
+        nPressed = true;
+        nextOne = 1 - 1; // beat
+        break;
     case '9':
-        nextOne = 2;
+        nPressed = true;
+        nextOne = 2 - 1; // way less
+        break;
     case '0':
-        nextOne = 3;
+        nPressed = true;
+        nextOne = 3 - 1; // believer
+        break;
     }
 }
 //--------------------------------------------------------------
