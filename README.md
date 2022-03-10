@@ -21,4 +21,9 @@ This is the class that brings most things together. Here, you will find the code
 The AudioVisualizer class provides us with the data needed to do the visualization. Using some of the tools OpenFrameworks provides us and math, we can obtain information such as the amplitude of the sound. 
 
 ## Music Keys
-N will move forward towards the next song in the vector playlist which contains strings of all names of the songs.
+- 'n' will move forward towards the next song in the vector playlist which contains strings of all names of the songs.
+- 'N' will move backwards throught the list of songs onto the previous one.
+- '7' will play the first song.
+- '8' will play the second song.
+- '9' will play the third song.
+- '0' will play the fourth song.
