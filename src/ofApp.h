@@ -111,17 +111,6 @@ bool booleanTimer(int intervalToReturnBool, int secSpeed)
 			return false;
 		}
 	}
-
-void Timer()
-	{
-		if (ofGetFrameNum() % (60) == 0)
-		{
-			secPass++;
-			if(secPass % 60 == 0){
-				secPass = 0;
-			}
-		}
-	}
 private:
 	ofSoundPlayer sound;
 	AudioVisualizer visualizer;

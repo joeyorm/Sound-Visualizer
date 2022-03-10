@@ -21,6 +21,7 @@ void ofApp::setup()
     imageBg.load("KeepitSimple.png");    // Loads the images
     pauseButton.load("pauseButton.png"); // Loads the images
     playButton.load("playButtton.png");  // Loads the images
+    
 }
 
 //--------------------------------------------------------------
@@ -38,6 +39,14 @@ void ofApp::update()
     {
         visualizer.updateAmplitudes(); // Updates Amplitudes for visualizer
     }
+
+    if (ofGetFrameNum() % (60) == 0)
+		{
+			this-> secPass++;
+			if(secPass % 60 == 0){
+				secPass = 0;
+			}
+		}
 
     if (booleanTimer(4)) // wait for 4 seconds and then go ahead and update the variable time, so that it can start fading
     {
@@ -436,6 +445,8 @@ void ofApp::keyPressed(int key)
     }
 }
 //--------------------------------------------------------------
+
+
 void ofApp::keyReleased(int key)
 {
 }
