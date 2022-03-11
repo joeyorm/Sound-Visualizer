@@ -30,9 +30,6 @@ void ofApp::setup()
 void ofApp::update()
 {
 
-
-    
- 
     ofSoundUpdate();             // Updates all sound players
     sound.setVolume(currentVol); // updates the volume
 
@@ -47,17 +44,20 @@ void ofApp::update()
     }
 
     if (ofGetFrameNum() % (60) == 0)
-		{
-			this-> secPass++;
-			if(secPass % 60 == 0){
-				secPass = 0;
-			}
-		}
-    if(wrongPress){
-        ofSetColor(175,0,0);
-        string donotpress = "Can't press this button right now";
-        myFont2.drawString(donotpress, ofGetWidth()/2 - myFont2.stringWidth(donotpress)/2, ofGetHeight()/4 - myFont2.stringHeight(donotpress)/4);
-        if(booleanTimer(2)){
+    {
+        this->secPass++;
+        if (secPass % 60 == 0)
+        {
+            secPass = 0;
+        }
+    }
+    if (wrongPress)
+    {
+        ofSetColor(175, 0, 0);
+        string donotpress = "Can't press this buttor right now";
+        myFont2.drawString(donotpress, ofGetWidth() / 2 - myFont2.stringWidth(donotpress) / 2, ofGetHeight() / 4 - myFont2.stringHeight(donotpress) / 4);
+        if (booleanTimer(2))
+        {
             wrongPress = false;
         }
     }
@@ -132,7 +132,6 @@ void ofApp::update()
         NPressed = false;
     }
 
-
     // BACKGROUND CHANGER FORWARD
     if (bPressed)
     {
@@ -194,9 +193,12 @@ void ofApp::draw()
     //     ofDisableAlphaBlending();
     // }
 
-    ofSetColor(0, 0, 0);                                                          // FIXME:
-    string currentMusic = playlist[nextOne];                                      // draw m
-    myFont5.drawString(currentMusic.erase(currentMusic.length() - 4, -4), n, 75 + l); // will draw current music
+    ofSetColor(0, 0, 0);
+    string currentMusic = playlist[nextOne];
+    
+    currentMusic = currentMusic.erase(currentMusic.rfind("."), currentMusic.length()- currentMusic.rfind("."));
+    currentMusic = remSpecificChar(currentMusic, '_', " ");
+    myFont5.drawString(currentMusic, n, 75 + l); // will draw current music
 
     vector<float> amplitudes = visualizer.getAmplitudes();
     if (mode == '1')
@@ -247,8 +249,7 @@ void ofApp::draw()
     }
 
     menu.background(0, 0, 0, 200);
-    menu.screenDisplay(); // FIXME: //Animation?? y = ofNoise(ofGetElapsedTime())
-    
+    menu.screenDisplay(); // Animation y = ofNoise(ofGetElapsedTime())
 
     ofEnableAlphaBlending();
     welcomeScreen.toggle();
@@ -392,27 +393,15 @@ void ofApp::keyPressed(int key)
             sound.play();
         }
         break;
-    case 't': // replay the recording //FIXME:
+    case 't': // replay the recording
         if (not cancel && not recording && keystrokes.size() > k)
         {
             replay = true;
         }
-        if (recording){
+        if (recording)
+        {
             wrongPress = !wrongPress;
         }
-        
-        break;
-    case '1':
-        mode = '1';
-        break;
-    case '2':
-        mode = '2';
-        break;
-    case '3':
-        mode = '3';
-        break;
-    case '4':
-        mode = '4';
     case '-': // lower volume
         if (currentVol > 0.1)
         {
@@ -425,7 +414,7 @@ void ofApp::keyPressed(int key)
             currentVol += 0.1;
         }
         break;
-    case 'r': // record //FIXME:
+    case 'r': // record
         recording = !recording;
         break;
     case 'h': // draw help
@@ -438,22 +427,29 @@ void ofApp::keyPressed(int key)
             helpButtons = true;
         }
         break;
-
-    
+    case '1':
+        mode = '1';
+        break;
+    case '2':
+        mode = '2';
+        break;
+    case '3':
+        mode = '3';
+        break;
+    case '4':
+        mode = '4';
     case 'n': // toggle next Music songs
         nPressed = true;
         break;
     case 'N':
         NPressed = true;
         break;
-
     case 'a': // toggle Amplitudes stop
         ampStop = !ampStop;
         break;
     case 'm': // toggle menu on or off
         menu.toggle();
         break;
-
     case 'b':
         bPressed = true;
         break;
@@ -479,7 +475,6 @@ void ofApp::keyPressed(int key)
     }
 }
 //--------------------------------------------------------------
-
 
 void ofApp::keyReleased(int key)
 {
@@ -526,12 +521,14 @@ void ofApp::gotMessage(ofMessage msg)
 }
 
 //--------------------------------------------------------------
-void ofApp::dragEvent(ofDragInfo dragInfo){
+void ofApp::dragEvent(ofDragInfo dragInfo)
+{
 
-    if (dragInfo.files.size() > 0 && playlist.back() != dragInfo.files[0]) {
+    if (dragInfo.files.size() > 0 && !count(playlist.begin(), playlist.end(), dragInfo.files[0]))
+    {
 
-    playlist.push_back(dragInfo.files[0]);
-    dragInfo.files.clear();
-
+        playlist.push_back(dragInfo.files[0]);
+        dragInfo.files.clear();
     }
 }
+

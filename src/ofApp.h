@@ -106,6 +106,23 @@ bool booleanTimer(int intervalToReturnBool) // becomes true every n seconds for 
 		}
 	}
 
+string remSpecificChar(string text, char toRemove, string toReplace)
+{
+    string newString = "";
+
+    for (int i = 0; i < text.size(); i++)
+    {
+        if (text[i] == toRemove)
+        {
+            newString += toReplace;
+        }
+        else
+        {
+            newString += text[i];
+        }
+    }
+    return newString;
+}
 private:
 	ofSoundPlayer sound;
 	AudioVisualizer visualizer;
