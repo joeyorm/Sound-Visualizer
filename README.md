@@ -27,7 +27,14 @@ The AudioVisualizer class provides us with the data needed to do the visualizati
 - '8' will play the second song.
 - '9' will play the third song.
 - '0' will play the fourth song.
+- 'm' will toggle the menu on
+- drag and drop a music file 
+
 
 ## Contributors
 - Joey Ortega Mandia - joey.ortega@upr.edu
 - Angel Feliciano Portalatin - angel.feliciano21@upr.edu
+
+## Disclaimer
+- None of the images inside the app are owned by the authors of this project unless specified otherwise.
+- This code can be used as long as no ownership of this code is made by someone else. (Plagiarism)

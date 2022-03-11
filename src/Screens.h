@@ -60,7 +60,7 @@ public:
 	float getScreenHeight() { return this->screenHeight; }
 	float getScreenStartPosX() { return this->xPos; }
 	float getScreenStartPosY() { return this->yPos; }
-	bool  getBool(){return this->toggler;}
+	bool getBool() { return this->toggler; }
 
 	// functions
 	void screenDisplay() // makes the screen appear on the screen if toggler is true (innitially set to false) to activate use .toggle()
@@ -73,25 +73,27 @@ public:
 			ofDisableAlphaBlending();
 		}
 	}
-	
 
-	void screenTextReg(string text, int x, int y,int div1,int div2) // creates a draw text
+	void screenTextReg(string text, int x, int y) // creates a draw text
 	{
 		if (this->toggler)
 		{
-			font1.drawString(text,x/div1 - font1.stringWidth(text)/div1, y/div2 - font1.stringHeight(text)/div2);
+			font1.drawString(text, x, y);
 		}
 	}
-	void screenTextTittle(string text, int x, int y , int div1,int div2){
-		if (this->toggler){
-			font2.drawString(text,x/div1 - font2.stringWidth(text)/div1, y/div2 - font2.stringHeight(text)/div2);
+	void screenTextTittle(string text, int x, int y, int div1, int div2)
+	{
+		if (this->toggler)
+		{
+			font2.drawString(text,(x - font2.stringWidth(text))/div1, (y - font2.stringHeight(text))/div2);
 		}
 	}
 
-	void screenTextTittle1(string text, int x, int y , int div1,int div2){
+	void screenTextTittle1(string text, int x, int y, int div1, int div2)
+	{
 		if (this->toggler)
 		{
-			font3.drawString(text,x/div1 - font3.stringWidth(text)/div1, y/div2 - font3.stringHeight(text)/div2);
+			font3.drawString(text,(x - font3.stringWidth(text))/div1, (y - font3.stringHeight(text))/div2);
 		}
 	}
 

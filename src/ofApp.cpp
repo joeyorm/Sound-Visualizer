@@ -57,19 +57,6 @@ void ofApp::update()
         }
     }
 
-    if (wrongPress)
-    {
-        fade = true;
-        ofSetColor(175, 0, 0, fader);
-        string donotpress = "Can't press this button right now";
-        myFont2.drawString(donotpress, ofGetWidth() / 2 - myFont2.stringWidth(donotpress) / 2, ofGetHeight() / 4 - myFont2.stringHeight(donotpress) / 4);
-        if (booleanTimer(2))
-        {
-            wrongPress = false;
-            fade = false;
-            fader = 255;
-        }
-    }
 
     if (booleanTimer(4)) // wait for 4 seconds and then go ahead and update the variable time, so that it can start fading
     {
@@ -182,6 +169,20 @@ void ofApp::draw()
     imageBg.draw(ofGetWidth() / 2 - imageBg.getWidth() / 2, ofGetHeight() / 2 - imageBg.getHeight() / 2);
     imageBg.resize(ofGetWidth(), ofGetHeight());
 
+    if (wrongPress)
+    {
+        fade = true;
+        ofSetColor(175, 0, 0, fader);
+        string donotpress = "Can't press this button right now";
+        myFont2.drawString(donotpress, ofGetWidth() / 2 - myFont2.stringWidth(donotpress) / 2, ofGetHeight() / 4 - myFont2.stringHeight(donotpress) / 4);
+        if (booleanTimer(2))
+        {
+            wrongPress = false;
+            fade = false;
+            fader = 255;
+        }
+    }
+
     if (!playing)
     {
         ofEnableAlphaBlending();
@@ -240,30 +241,44 @@ void ofApp::draw()
         }
     }
 
-    // WIP //FIXME:
-    menu.background(0, 0, 0, 200);
+    //Menu Screen (Just a bunch of text)
+    ofSetColor(0, 0, 0, 200);
     menu.screenDisplay();
-    menu.background(255, 255, 255);
+    ofSetColor(255, 255, 255);
     menu.screenTextTittle("MENU", ofGetWidth(), ofGetHeight(), 2, 5);
-    menu.screenTextTittle1("BUTTON", ofGetWidth(), ofGetHeight() / 3, 4, 1);
-    menu.screenTextTittle1("SPECS", ofGetWidth() - ofGetWidth() / 4, ofGetHeight() / 3, 1, 1);
-    if (menu.getBool())
-    {
-        myFont1.drawString("NRK: " + to_string(keystrokes.size()), ofGetWidth() - ofGetWidth() / 3, 340);
-        myFont1.drawString("FPS: " + to_string(ofGetFrameNum() % 60), ofGetWidth() - ofGetWidth() / 3, 300);
-        myFont1.drawString("Volume down: '-'", ofGetWidth() - ofGetWidth() / 3, 380);
-        myFont1.drawString("Volume up: '='", ofGetWidth() - ofGetWidth() / 3, 420);
-        myFont1.drawString("Volume: " + to_string(currentVol).erase(to_string(currentVol).length() - 5, -5), ofGetWidth() / 4, 300);
-        myFont1.drawString("X: " + to_string(ofGetMouseX()) + ", Y: " + to_string(ofGetMouseY()), ofGetWidth() - ofGetWidth() / 3, 460);
-        // letters a,b,B,n,N,+,_,m,t,r,c,p,
-    }
-    menu.screenDisplay();
-
+    //BUTTONS
+    menu.screenTextTittle1("BUTTONS", ofGetWidth(), ofGetHeight() / 3, 4, 1);                                                          // FIXME:
+    menu.screenTextReg("Volume Increment: =", ofGetWidth() / 4, 270);
+    menu.screenTextReg("Volume Decrement: -", ofGetWidth() / 4, 300);                                                            // FIXME:
+    menu.screenTextReg("Background Forward: b", ofGetWidth() / 4, 330);
+    menu.screenTextReg("Background Previous: B", ofGetWidth() / 4, 360);
+    menu.screenTextReg("Next Song: n", ofGetWidth() / 4, 390);
+    menu.screenTextReg("Previous Song: N", ofGetWidth() / 4, 420);
+    menu.screenTextReg("Visualizer Increment: +", ofGetWidth() / 4, 450);
+    menu.screenTextReg("Visualizer Decrement: _", ofGetWidth() / 4, 480);
+    menu.screenTextReg("Menu Toggle: m", ofGetWidth() / 4, 510);
+    menu.screenTextReg("Replay Recorded Keys: t", ofGetWidth() / 4, 540); 
+    menu.screenTextReg("Record Keys: r", ofGetWidth() / 4, 570);
+    menu.screenTextReg("Cancel Replay: c", ofGetWidth() / 4, 600);
+    menu.screenTextReg("Pause Song / Unpause Song : p", ofGetWidth() / 4, 630);
+    menu.screenTextReg("Pause Visualizer: a", ofGetWidth() / 4, 660);
+    //SPECS
+    menu.screenTextTittle1("SPECS", ofGetWidth() - ofGetWidth() / 4, ofGetHeight() / 3,1,1);
+    menu.screenTextReg("Volume: " + to_string(currentVol).erase(to_string(currentVol).length() - 5, -5),  ofGetWidth() - ofGetWidth() / 3, 270);
+    menu.screenTextReg("Recording: "+to_string(recording), ofGetWidth() - ofGetWidth() / 3, 300);
+    menu.screenTextReg("Recorded Keys: " + to_string(keystrokes.size()), ofGetWidth() - ofGetWidth() / 3, 330);
+    menu.screenTextReg("Replay: " + to_string(replay),  ofGetWidth() - ofGetWidth() / 3, 360);
+    menu.screenTextReg("Paused: " + to_string(playing), ofGetWidth() - ofGetWidth() / 3, 390);
+    menu.screenTextReg("Frames Per Second: " + to_string(ofGetFrameNum() % 60), ofGetWidth() - ofGetWidth() / 3, 420); 
+    menu.screenTextReg("X: " + to_string(ofGetMouseX()) + ", Y: " + to_string(ofGetMouseY()), ofGetWidth() - ofGetWidth() / 3, 450);
+    
+    //welcomeScreen
     welcomeScreen.toggle();
     welcomeScreen.background(0, 0, 0, time);
     welcomeScreen.screenDisplay();
     ofSetColor(255, 255, 255, time);
-    myFont4.drawString("WELCOME", ofGetWidth() / 2 - myFont4.stringWidth("WELCOME") / 2, ofGetHeight() / 2 - myFont4.stringHeight("WELCOME") / 2);
+    welcomeScreen.screenTextTittle("WELCOME", ofGetWidth(), ofGetHeight(), 2,2 );
+    welcomeScreen.screenTextTittle1("Press 'm' For More Info On Keys",ofGetWidth(), ofGetHeight() -ofGetHeight()/4,2,1);
     welcomeScreen.toggle();
 }
 void ofApp::drawMode1(vector<float> amplitudes)
@@ -322,7 +337,7 @@ void ofApp::drawMode4(vector<float> amplitudes) // cube
     myFont5.drawString("Cube Visualizer", n, 25 + l);
     ofEnableDepthTest();
     newBox.setPosition(0, 0, 0);
-    newBox.set(100, abs(2 * amplitudes[0] * visualMultiplier / 4) + 50, 100);
+    newBox.set(abs(amplitudes[0] * visualMultiplier), abs(amplitudes[0] * visualMultiplier), abs(amplitudes[0] * visualMultiplier));
     if (booleanTimer(3))
     {
         for (int side = 0; side < 6; side++)
