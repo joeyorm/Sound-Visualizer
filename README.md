@@ -28,8 +28,7 @@ The AudioVisualizer class provides us with the data needed to do the visualizati
 - '9' will play the third song.
 - '0' will play the fourth song.
 - 'm' will toggle the menu on
-- drag and drop a music file 
-
+- Dragging and dropping .wav files onto the window will add them to the playlist. Scroll to them using 'n'!
 
 ## Contributors
 - Joey Ortega Mandia - joey.ortega@upr.edu
@@ -37,4 +36,4 @@ The AudioVisualizer class provides us with the data needed to do the visualizati
 
 ## Disclaimer
 - None of the images inside the app are owned by the authors of this project unless specified otherwise.
-- This code can be used as long as no ownership of this code is made by someone else. (Plagiarism)
+- This code can be used as long as no ownership of this code is falsely claimed by someone else. (Plagiarism)
