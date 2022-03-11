@@ -390,12 +390,15 @@ void ofApp::keyPressed(int key)
     case 'p': // Play the visualizer
         if (playing)
         {
-            playing = !playing;
+
+            playing = false;
+            pause = false;
+            ampStop = false;
             sound.stop();
         }
         else
         {
-            playing = !playing;
+            playing = true;
             sound.play();
         }
         break;
@@ -470,6 +473,7 @@ void ofApp::keyPressed(int key)
         NPressed = true;
         break;
     case 'a': // toggle Amplitudes stop
+        playing = false;
         pause = !pause;
         sound.setPaused(pause);
         ampStop = !ampStop;
