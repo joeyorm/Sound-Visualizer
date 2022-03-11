@@ -63,7 +63,7 @@ void ofApp::update()
         startFinish = true;
     }
 
-    if (booleanTimer(4))
+    if (booleanTimer(4) && not pause)
     {
         randomInt1 = ofRandom(0, 255);
         randomInt2 = ofRandom(0, 255);
@@ -470,6 +470,8 @@ void ofApp::keyPressed(int key)
         NPressed = true;
         break;
     case 'a': // toggle Amplitudes stop
+        pause = !pause;
+        sound.setPaused(pause);
         ampStop = !ampStop;
         break;
     case 'm': // toggle menu on or off
