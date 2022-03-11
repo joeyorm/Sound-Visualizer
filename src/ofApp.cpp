@@ -7,6 +7,7 @@ using namespace std;
 //--------------------------------------------------------------
 void ofApp::setup()
 {
+    ofSetWindowTitle("Sound Visualizer");
     sound.loadSound(playlist[0]); // Loads a sound file (in bin/data/)
     sound.setLoop(true);          // Makes the song loop indefinitely
 
@@ -37,6 +38,10 @@ void ofApp::update()
     {
         time -= 1;
     }
+    if (fade)
+    {
+        fader -= 1;
+    }
 
     if (not ampStop) // stops the visualizer
     {
@@ -51,14 +56,18 @@ void ofApp::update()
             secPass = 0;
         }
     }
+
     if (wrongPress)
     {
-        ofSetColor(175, 0, 0);
-        string donotpress = "Can't press this buttor right now";
+        fade = true;
+        ofSetColor(175, 0, 0, fader);
+        string donotpress = "Can't press this button right now";
         myFont2.drawString(donotpress, ofGetWidth() / 2 - myFont2.stringWidth(donotpress) / 2, ofGetHeight() / 4 - myFont2.stringHeight(donotpress) / 4);
         if (booleanTimer(2))
         {
             wrongPress = false;
+            fade = false;
+            fader = 255;
         }
     }
 
@@ -136,7 +145,7 @@ void ofApp::update()
     if (bPressed)
     {
         nextBackground++;
-        if (nextBackground < backgroundImages.size() - 1)
+        if (nextBackground < backgroundImages.size())
         {
             imageBg.load(backgroundImages[nextBackground]);
         }
@@ -179,7 +188,6 @@ void ofApp::draw()
         ofSetColor(247, 247, 247);
         pauseButton.draw(ofGetWidth() / 2 - floor(pauseButton.getWidth() / 2), ofGetHeight() / 2 - floor(pauseButton.getHeight() / 2));
         pauseButton.resize(100, 100);
-        // myFont2.drawString(pressP, ofGetWidth() / 2 - myFont2.stringWidth(pressP) / 2, ofGetHeight() / 2 - myFont2.stringHeight(pressP) / 2);
         ofDisableAlphaBlending();
     }
 
@@ -232,14 +240,13 @@ void ofApp::draw()
         }
     }
 
+    // WIP //FIXME:
     menu.background(0, 0, 0, 200);
-    menu.screenDisplay(); // Animation y = ofNoise(ofGetElapsedTime())
-    ofSetColor(255, 255, 255);
+    menu.screenDisplay();
+    menu.background(255, 255, 255);
     menu.screenTextTittle("MENU", ofGetWidth(), ofGetHeight(), 2, 5);
     menu.screenTextTittle1("BUTTON", ofGetWidth(), ofGetHeight() / 3, 4, 1);
     menu.screenTextTittle1("SPECS", ofGetWidth() - ofGetWidth() / 4, ofGetHeight() / 3, 1, 1);
-    
-    // this things below need to be implemented with a menu.screenTextReg()
     if (menu.getBool())
     {
         myFont1.drawString("NRK: " + to_string(keystrokes.size()), ofGetWidth() - ofGetWidth() / 3, 340);
@@ -248,17 +255,16 @@ void ofApp::draw()
         myFont1.drawString("Volume up: '='", ofGetWidth() - ofGetWidth() / 3, 420);
         myFont1.drawString("Volume: " + to_string(currentVol).erase(to_string(currentVol).length() - 5, -5), ofGetWidth() / 4, 300);
         myFont1.drawString("X: " + to_string(ofGetMouseX()) + ", Y: " + to_string(ofGetMouseY()), ofGetWidth() - ofGetWidth() / 3, 460);
+        // letters a,b,B,n,N,+,_,m,t,r,c,p,
     }
+    menu.screenDisplay();
 
     welcomeScreen.toggle();
     welcomeScreen.background(0, 0, 0, time);
     welcomeScreen.screenDisplay();
-
-    ofSetColor(248, 248, 248, time);
+    ofSetColor(255, 255, 255, time);
     myFont4.drawString("WELCOME", ofGetWidth() / 2 - myFont4.stringWidth("WELCOME") / 2, ofGetHeight() / 2 - myFont4.stringHeight("WELCOME") / 2);
     welcomeScreen.toggle();
-
-    menu.screenDisplay();
 }
 void ofApp::drawMode1(vector<float> amplitudes)
 {
@@ -268,16 +274,8 @@ void ofApp::drawMode1(vector<float> amplitudes)
 
     for (int i = 0; i < ofGetWidth(); i += ofGetWidth() / 64)
     {
-        int multiplier;
-        // if (32 < iter){ //this here allows us to choose the range we want to multiply
-        //     multiplier = amplitudes[iter] * 300 * visualizerMultiplier; // this here multiplies the visualizer
-        // }
-        // else{
-        //     multiplier = amplitudes[iter];
-        // }
-        multiplier = amplitudes[iter];
         ofSetColor(randomInt1, randomInt2, randomInt3);
-        ofDrawRectangle(i, ofGetHeight(), 32, multiplier);
+        ofDrawRectangle(i, ofGetHeight(), 32, amplitudes[iter] * visualMultiplier);
 
         iter++;
         if (iter == 64)
@@ -289,17 +287,16 @@ void ofApp::drawMode1(vector<float> amplitudes)
 void ofApp::drawMode2(vector<float> amplitudes)
 {
     ofSetColor(0, 0, 0);
-    ofSetLineWidth(10); // Sets the line width
-    ofNoFill();         // Only the outline of shapes will be drawn
+    ofSetLineWidth(10);
+    ofNoFill();
     myFont5.drawString("Circle Radius Visualizer", n, 25 + l);
-
     int bands = amplitudes.size();
     for (int j = 0; j < bands; j++)
     {
         int i;
         i = ofRandom(0, 3);
         ofSetColor((bands - i) * 32 % 256, randomInt1, randomInt2);
-        ofDrawCircle(ofGetWidth() / 2, ofGetHeight() / 2, amplitudes[0] / (i + 1));
+        ofDrawCircle(ofGetWidth() / 2, ofGetHeight() / 2, (amplitudes[0] * visualMultiplier) / (i + 1));
     }
 }
 
@@ -308,11 +305,10 @@ void ofApp::drawMode3(vector<float> amplitudes)
     ofFill();
     ofSetColor(0, 0, 0);
     myFont5.drawString("Rectangle Width Visualizer", n, 25 + l);
-
     ofSetColor(randomInt1, randomInt2, randomInt3);
     for (int i = 0; i < ofGetHeight(); i += ofGetHeight() / 64)
     {
-        ofDrawRectangle(ofGetWidth(), i, amplitudes[iter2], 32);
+        ofDrawRectangle(ofGetWidth(), i, amplitudes[iter2] * visualMultiplier, 32);
         iter2++;
         if (iter2 == 64)
         {
@@ -321,16 +317,12 @@ void ofApp::drawMode3(vector<float> amplitudes)
     }
 }
 
-void ofApp::drawMode4(vector<float> amplitudes)
+void ofApp::drawMode4(vector<float> amplitudes) // cube
 {
     myFont5.drawString("Cube Visualizer", n, 25 + l);
     ofEnableDepthTest();
-    // ofSetBackgroundColor(0, 0, 0);
     newBox.setPosition(0, 0, 0);
-    newBox.set(100, abs(2 * amplitudes[0] / 4) + 50, 100);
-    // light.setPosition(0, 100, -30);
-    // light.enable();
-
+    newBox.set(100, abs(2 * amplitudes[0] * visualMultiplier / 4) + 50, 100);
     if (booleanTimer(3))
     {
         for (int side = 0; side < 6; side++)
@@ -338,11 +330,9 @@ void ofApp::drawMode4(vector<float> amplitudes)
             newBox.setSideColor(side, ofColor::fromHsb(ofRandom(255), 255, 255));
         }
     }
-
     cam.begin();
     newBox.draw();
     cam.end();
-    // light.disable();
     ofDisableDepthTest();
 }
 
@@ -374,6 +364,10 @@ void ofApp::keyPressed(int key)
             replay = false;
             keystrokes.clear();
         }
+        else
+        {
+            wrongPress = !wrongPress;
+        }
         break;
     }
     switch (keyVal)
@@ -395,20 +389,49 @@ void ofApp::keyPressed(int key)
         {
             replay = true;
         }
-        if (recording)
+        else
         {
             wrongPress = !wrongPress;
         }
+        break;
     case '-': // lower volume
         if (currentVol > 0.1)
         {
             currentVol -= 0.1;
+        }
+        else
+        {
+            wrongPress = !wrongPress;
         }
         break;
     case '=': // volume up
         if (currentVol < 0.9)
         {
             currentVol += 0.1;
+        }
+        else
+        {
+            wrongPress = !wrongPress;
+        }
+        break;
+    case '+': // vizualizer increment
+        if (visualMultiplier < 150)
+        {
+            visualMultiplier += 1;
+        }
+        else
+        {
+            wrongPress = !wrongPress;
+        }
+        break;
+    case '_': // visualizer decrement
+        if (visualMultiplier > 0)
+        {
+            visualMultiplier -= 1;
+        }
+        else
+        {
+            wrongPress = !wrongPress;
         }
         break;
     case 'r': // record
@@ -428,7 +451,7 @@ void ofApp::keyPressed(int key)
     case 'n': // toggle next Music songs
         nPressed = true;
         break;
-    case 'N':
+    case 'N': // toggle previous Music songs
         NPressed = true;
         break;
     case 'a': // toggle Amplitudes stop
@@ -437,10 +460,10 @@ void ofApp::keyPressed(int key)
     case 'm': // toggle menu on or off
         menu.toggle();
         break;
-    case 'b':
+    case 'b': // toggle nextBackground
         bPressed = true;
         break;
-    case 'B':
+    case 'B': // toggle previous background
         BPressed = true;
         break;
     case '7':

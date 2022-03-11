@@ -47,15 +47,19 @@ public:
 	bool NPressed = false;
 	bool mousepressed = false;
 	bool wrongPress = false;
-	
+	bool fade = true;
+
 	float randomInt1;
 	float randomInt2;
 	float randomInt3;
+	
 	int secondsPassed = 0;
+	int visualMultiplier = 1;
 	double currentVol;
 
 	int iter = 0;
 	int iter2 = 0;
+	int fader = 255; 
 	int k = 0;
 	int n = 5;
 	int l = 20;
