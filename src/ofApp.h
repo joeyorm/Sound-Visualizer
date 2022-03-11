@@ -48,6 +48,7 @@ public:
 	bool mousepressed = false;
 	bool wrongPress = false;
 	bool fade = true;
+	bool pause = false;
 
 	float randomInt1;
 	float randomInt2;
