@@ -41,8 +41,8 @@ public:
 		toggler = false;
 
 		font1.load("texreg.ttf", 15);
-		font2.load("textbold.ttf", 30);
-		font3.load("textbold.ttf", 15);
+		font2.load("textbold.ttf", 75);
+		font3.load("textbold.ttf", 30);
 	}
 
 	// setters
@@ -60,6 +60,7 @@ public:
 	float getScreenHeight() { return this->screenHeight; }
 	float getScreenStartPosX() { return this->xPos; }
 	float getScreenStartPosY() { return this->yPos; }
+	bool  getBool(){return this->toggler;}
 
 	// functions
 	void screenDisplay() // makes the screen appear on the screen if toggler is true (innitially set to false) to activate use .toggle()
@@ -67,16 +68,33 @@ public:
 		if (this->toggler)
 		{
 			ofFill();
+			ofEnableAlphaBlending();
 			ofDrawRectangle(getScreenStartPosX(), getScreenStartPosY(), getScreenWidth(), getScreenHeight());
+			ofDisableAlphaBlending();
 		}
 	}
-	void screenTextfont1(string text, int xPos, int yPos) // creates a draw text
+	
+
+	void screenTextReg(string text, int x, int y,int div1,int div2) // creates a draw text
 	{
 		if (this->toggler)
 		{
-			font1.drawString(text, xPos, yPos);
+			font1.drawString(text,x/div1 - font1.stringWidth(text)/div1, y/div2 - font1.stringHeight(text)/div2);
 		}
 	}
+	void screenTextTittle(string text, int x, int y , int div1,int div2){
+		if (this->toggler){
+			font2.drawString(text,x/div1 - font2.stringWidth(text)/div1, y/div2 - font2.stringHeight(text)/div2);
+		}
+	}
+
+	void screenTextTittle1(string text, int x, int y , int div1,int div2){
+		if (this->toggler)
+		{
+			font3.drawString(text,x/div1 - font3.stringWidth(text)/div1, y/div2 - font3.stringHeight(text)/div2);
+		}
+	}
+
 	void background(float r, float g, float b) // sets background of screen without opacity
 	{
 		if (this->toggler)
@@ -171,7 +189,7 @@ public:
 
 	void buttonPress() // FIXME: //the idea is to make this class detect mouse buttons when pressed.
 	{
-		if (toggler && ofGetMouseX() > this-> xPosB && ofGetMouseX() <= this-> xPosB + this-> width && ofGetMouseY() >= this-> yPosB && ofGetMouseY() <= this-> yPosB + this-> height && ofGetMousePressed(0))
+		if (toggler && ofGetMouseX() > this->xPosB && ofGetMouseX() <= this->xPosB + this->width && ofGetMouseY() >= this->yPosB && ofGetMouseY() <= this->yPosB + this->height && ofGetMousePressed(0))
 		{
 			pressedButton = true;
 		}

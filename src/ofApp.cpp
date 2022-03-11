@@ -33,17 +33,17 @@ void ofApp::update()
     ofSoundUpdate();             // Updates all sound players
     sound.setVolume(currentVol); // updates the volume
 
-    if (time > 0 && startFinish)
+    if (time > 0 && startFinish) // allows the fade Animation of Welcome
     {
         time -= 1;
     }
 
-    if (not ampStop) // stops the visualizer if a is pressed causing the bool to be false,
+    if (not ampStop) // stops the visualizer
     {
-        visualizer.updateAmplitudes(); // Updates Amplitudes for visualizer
+        visualizer.updateAmplitudes();
     }
 
-    if (ofGetFrameNum() % (60) == 0)
+    if (ofGetFrameNum() % (60) == 0) // A timer that makes the variable go back to
     {
         this->secPass++;
         if (secPass % 60 == 0)
@@ -195,8 +195,8 @@ void ofApp::draw()
 
     ofSetColor(0, 0, 0);
     string currentMusic = playlist[nextOne];
-    
-    currentMusic = currentMusic.erase(currentMusic.rfind("."), currentMusic.length()- currentMusic.rfind("."));
+
+    currentMusic = currentMusic.erase(currentMusic.rfind("."), currentMusic.length() - currentMusic.rfind("."));
     currentMusic = remSpecificChar(currentMusic, '_', " ");
     myFont5.drawString(currentMusic, n, 75 + l); // will draw current music
 
@@ -220,22 +220,6 @@ void ofApp::draw()
         drawMode4(amplitudes);
     }
 
-    if (helpButtons) // rectangle that contains info such as FPS, buttons etc
-    {
-        ofSetColor(0, 0, 0);
-        ofFill();
-        ofDrawRectRounded(250, 220, 500, 300, 50);
-        ofSetColor(255, 255, 255);
-        myFont1.drawString("NRK: " + to_string(keystrokes.size()), 300, 340);
-        myFont1.drawString("FPS: " + to_string(ofGetFrameNum() % 60), 300, 300);
-        myFont1.drawString("Volume down: '-'", 300, 380);
-        myFont1.drawString("Volume up: '='", 300, 420);
-        myFont1.drawString("Volume: " + to_string(currentVol).erase(to_string(currentVol).length() - 5, -5), 500, 300);
-        myFont1.drawString("X: " + to_string(ofGetMouseX()) + ", Y: " + to_string(ofGetMouseY()), 300, 460);
-        myFont2.drawString("HELP", ofGetWidth() / 2 - myFont2.stringWidth("HELP"), 265);
-        ofSetColor(randomInt1, randomInt2, randomInt3);
-    }
-
     if (recording) // will draw REC when user presses r and recording
     {
         if (secPass % 2 == 0) // every 2 seconds , modulo 1 is equal to no blinking, modulo 2 blinks
@@ -250,8 +234,22 @@ void ofApp::draw()
 
     menu.background(0, 0, 0, 200);
     menu.screenDisplay(); // Animation y = ofNoise(ofGetElapsedTime())
+    ofSetColor(255, 255, 255);
+    menu.screenTextTittle("MENU", ofGetWidth(), ofGetHeight(), 2, 5);
+    menu.screenTextTittle1("BUTTON", ofGetWidth(), ofGetHeight() / 3, 4, 1);
+    menu.screenTextTittle1("SPECS", ofGetWidth() - ofGetWidth() / 4, ofGetHeight() / 3, 1, 1);
+    
+    // this things below need to be implemented with a menu.screenTextReg()
+    if (menu.getBool())
+    {
+        myFont1.drawString("NRK: " + to_string(keystrokes.size()), ofGetWidth() - ofGetWidth() / 3, 340);
+        myFont1.drawString("FPS: " + to_string(ofGetFrameNum() % 60), ofGetWidth() - ofGetWidth() / 3, 300);
+        myFont1.drawString("Volume down: '-'", ofGetWidth() - ofGetWidth() / 3, 380);
+        myFont1.drawString("Volume up: '='", ofGetWidth() - ofGetWidth() / 3, 420);
+        myFont1.drawString("Volume: " + to_string(currentVol).erase(to_string(currentVol).length() - 5, -5), ofGetWidth() / 4, 300);
+        myFont1.drawString("X: " + to_string(ofGetMouseX()) + ", Y: " + to_string(ofGetMouseY()), ofGetWidth() - ofGetWidth() / 3, 460);
+    }
 
-    ofEnableAlphaBlending();
     welcomeScreen.toggle();
     welcomeScreen.background(0, 0, 0, time);
     welcomeScreen.screenDisplay();
@@ -261,7 +259,6 @@ void ofApp::draw()
     welcomeScreen.toggle();
 
     menu.screenDisplay();
-    ofDisableAlphaBlending();
 }
 void ofApp::drawMode1(vector<float> amplitudes)
 {
@@ -417,16 +414,6 @@ void ofApp::keyPressed(int key)
     case 'r': // record
         recording = !recording;
         break;
-    case 'h': // draw help
-        if (helpButtons)
-        {
-            helpButtons = false;
-        }
-        else
-        {
-            helpButtons = true;
-        }
-        break;
     case '1':
         mode = '1';
         break;
@@ -531,4 +518,3 @@ void ofApp::dragEvent(ofDragInfo dragInfo)
         dragInfo.files.clear();
     }
 }
-
