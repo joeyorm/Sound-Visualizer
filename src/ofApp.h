@@ -97,6 +97,7 @@ public:
 	ofImage pauseButton;
 	ofImage playButton;
 	ofImage ImgRecording;
+	ofImage ImgReplay;
 
 
 bool booleanTimer(int intervalToReturnBool) // becomes true every n seconds for one frame

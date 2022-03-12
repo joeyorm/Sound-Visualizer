@@ -25,6 +25,7 @@ void ofApp::setup()
     pauseButton.load("pauseButton.png"); // Loads the images
     playButton.load("playButtton.png");  // Loads the images
     ImgRecording.load("rec.png");
+    ImgReplay.load("replay.png");
 }
 
 //--------------------------------------------------------------
@@ -239,6 +240,17 @@ void ofApp::draw()
             ofDisableAlphaBlending();
         }
     }
+    
+    if (replay){
+        
+        ofEnableAlphaBlending();
+        ofSetColor(255, 255, 255);
+        ImgReplay.resize(75, 75);
+        ImgReplay.draw(floor(ofGetWidth() - ImgRecording.getWidth() - 10), floor(20));
+        ofDisableAlphaBlending();
+    
+
+    }
 
     // Menu Screen (Just a bunch of text)
     ofSetColor(0, 0, 0, 200);
@@ -270,6 +282,7 @@ void ofApp::draw()
     menu.screenTextReg("Paused: " + to_string(playing), ofGetWidth() - ofGetWidth() / 3, 390);
     menu.screenTextReg("Frames Per Second: " + to_string(ofGetFrameNum() % 60), ofGetWidth() - ofGetWidth() / 3, 420);
     menu.screenTextReg("X: " + to_string(ofGetMouseX()) + ", Y: " + to_string(ofGetMouseY()), ofGetWidth() - ofGetWidth() / 3, 450);
+    menu.screenTextReg("Multiplier: "+ to_string(visualMultiplier), ofGetWidth() - ofGetWidth() / 3, 480);
 
     // welcomeScreen
     welcomeScreen.toggle();
@@ -434,7 +447,7 @@ void ofApp::keyPressed(int key)
         }
         break;
     case '+': // vizualizer increment
-        if (visualMultiplier < 150)
+        if (visualMultiplier < 100)
         {
             visualMultiplier += 1;
         }
