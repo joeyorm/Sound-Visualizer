@@ -192,16 +192,6 @@ void ofApp::draw()
         ofDisableAlphaBlending();
     }
 
-    // if (playing)
-    // {
-
-    //     ofEnableAlphaBlending();
-    //     ofSetColor(247, 247, 247);
-    //     playButton.draw(ofGetWidth() / 2 - floor(playButton.getWidth() / 2), ofGetHeight() / 2 - floor(playButton.getHeight() / 2));
-    //     playButton.resize(100, 100);
-    //     ofDisableAlphaBlending();
-    // }
-
     ofSetColor(0, 0, 0);
     string currentMusic = playlist[nextOne];
 
@@ -241,7 +231,7 @@ void ofApp::draw()
         }
     }
     
-    if (replay){
+    if (replay){ // will draw simple image when replay is enabled
         
         ofEnableAlphaBlending();
         ofSetColor(255, 255, 255);
@@ -480,6 +470,7 @@ void ofApp::keyPressed(int key)
         break;
     case '4':
         mode = '4';
+        break;
     case 'n': // toggle next Music songs
         nPressed = true;
         break;
