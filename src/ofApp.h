@@ -86,8 +86,8 @@ public:
 	ofBoxPrimitive newBox;
 	ofEasyCam cam;
 
-	vector<string> playlist = {"My_Wife_2_Dogs.wav","beat.wav", "Way_Less_Sad.wav", "Believer.wav"};
-	vector<string> backgroundImages = {"KeepitSimple.png","LetsStartAgain.png", "NeverForgetWhereYouStarted.png"};
+	vector<string> playlist = {"My_Wife_2_Dogs.wav","beat.wav", "Way_Less_Sad.wav", "Believer.wav","high_hopes.wav","Truman.mp3","kissy_kissy.mp3", "I_Got_3.mp3", "Head_In_The_Clouds.mp3", "Sunroof.mp3", "Hands_On_You.mp3", "BACK_AND_FORTH.mp3"};
+	vector<string> backgroundImages = {"ultraviolet.jpg","KeepitSimple.png","LetsStartAgain.png", "NeverForgetWhereYouStarted.png"};
 	ofLight light;
 
 	Screens menu;

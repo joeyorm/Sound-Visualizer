@@ -21,7 +21,7 @@ void ofApp::setup()
     myFont4.load("textbold.ttf", 100); // Loads the text fonts
     myFont5.load("textbold.ttf", 22);
 
-    imageBg.load("KeepitSimple.png");    // Loads the images
+    imageBg.load("ultraviolet.jpg");    // Loads the images
     pauseButton.load("pauseButton.png"); // Loads the images
     playButton.load("playButtton.png");  // Loads the images
     ImgRecording.load("rec.png");
@@ -197,6 +197,7 @@ void ofApp::draw()
 
     currentMusic = currentMusic.erase(currentMusic.rfind("."), currentMusic.length() - currentMusic.rfind("."));
     currentMusic = remSpecificChar(currentMusic, '_', " ");
+    ofSetColor(248,248,248);
     myFont5.drawString(currentMusic, n, 75 + l); // will draw current music
 
     vector<float> amplitudes = visualizer.getAmplitudes();
@@ -286,7 +287,7 @@ void ofApp::draw()
 void ofApp::drawMode1(vector<float> amplitudes)
 {
     ofFill();
-    ofSetColor(0, 0, 0);
+    ofSetColor(248, 248, 248);
     myFont5.drawString("Rectangle Height Visualizer", n, 25 + l);
 
     for (int i = 0; i < ofGetWidth(); i += ofGetWidth() / 64)
@@ -303,7 +304,7 @@ void ofApp::drawMode1(vector<float> amplitudes)
 }
 void ofApp::drawMode2(vector<float> amplitudes)
 {
-    ofSetColor(0, 0, 0);
+    ofSetColor(248, 248, 248);
     ofSetLineWidth(10);
     ofNoFill();
     myFont5.drawString("Circle Radius Visualizer", n, 25 + l);
@@ -320,7 +321,7 @@ void ofApp::drawMode2(vector<float> amplitudes)
 void ofApp::drawMode3(vector<float> amplitudes)
 {
     ofFill();
-    ofSetColor(0, 0, 0);
+    ofSetColor(248, 248, 248);
     myFont5.drawString("Rectangle Width Visualizer", n, 25 + l);
     ofSetColor(randomInt1, randomInt2, randomInt3);
     for (int i = 0; i < ofGetHeight(); i += ofGetHeight() / 64)
